@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WEBAPI09其他BOM对象</title>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	
+	<script type="text/javascript">
+		// // location 对象：用来操作 url的
+		// console.log(location.href)  // 获取当前的url，可以修改，修改后会自动跳转
+		// // location.href = 'http://baidu.com/';
+
+		// // location.assign('http://sergiojune.com');  // 这个也是跳转，和location.href差不多
+
+		// // 替换 地址栏中的url
+		// location.replace('http://baidu.com/');
+
+		// // 刷新页面
+		// location.reload(true);  // 参数为 true 时强制从服务器端获取页面，为 false 时先从缓存区获取页面，没有再去服务器端
+
+		// // url 组成： scheme://host:port/path?query#fragment
+		// //            http://baidu.com
+		// console.log(location.hash);  // 获取锚点
+		// console.log(location.protocol);  // 获取协议
+		// console.log(location.pathname);  // 获取路径
+		// console.log(location.host);  // 获取主机名
+		// console.log(location.search);  // 获取查询的字符串
+		// console.log(location.port);  // 获取端口号
+
+
+		// history对象：操作浏览器历史，可以前进或后退页面
+		// history.forward()  // 前进页面
+		// history.back()  // 后退页面
+		// history.go()  // 跳转页面，正数为前进的页面数，负数为后退的页面数
+
+
+		// 获取浏览器的客户端
+		console.log(navigator.userAgent);
+		
+	</script>
+</body>
+</html>
