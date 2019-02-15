@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WEBAPI07注册事件</title>
+	<style type="text/css">
+	.red{
+		background-color: red;
+	}
+
+		#box1 {
+      width: 300px;
+      height: 300px;
+      background-color: red;
+    }
+
+    #box2 {
+      width: 200px;
+      height: 200px;
+      background-color: green;
+    }
+
+    #box3 {
+      width: 100px;
+      height: 100px;
+      background-color: blue;
+    }
+	</style>
+</head>
+<body>
+	<button id='btn'>按钮</button>
+
+	<div id="box1">
+    <div id="box2">
+      <div id="box3">
+      </div>
+    </div>
+  	</div>
+
+	<ul>
+		<li>剑圣</li>
+		<li>放逐之刃</li>
+		<li>堕落天使</li>
+		<li>锤石</li>
+	</ul>
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// 注册事件也有三种方式
+		// 第一种，使用addEventListener()，三个参数，第一个为事件类型，第二个为回调函数，第三个为选项，用来处理事件阶段的
+		var btn = $my('btn'); 
+		var f1 = function(){  // 有浏览器兼容问题
+			alert('addEventListener 事件触发');
+		};
+		btn.addEventListener('click', f1);
+		// 使用这个方法可以对同一事件注册多个处理函数
+		var f2 = function(){
+			alert('第二个事件了');
+		};
+		btn.addEventListener('click', f2);
+
+		// 第二种方法，使用 onclick 进行赋值,不同的方式注册事件不会被覆盖
+		btn.onclick = function(){  // 这种方法不能对同一事件注册多个响应，会覆盖掉
+			alert('onclick');
+		}
+
+		var f3 = function(){
+			alert('second onclick');
+		};
+		btn.onclick = f3;
+
+		// 第三种方式 attachEvent():两个参数，第一个参数为事件类型，第二个参数为回调函数
+		// btn.attachEvent('click', function(){  // 这个在chrome运行不了
+		// 	alert('attachEvent');
+		// });
+
+
+		// 移除事件 ,上面的每一种注册事件都对应一个移除事件
+		// 第一种方法
+		btn.onclick = null;  // 只对使用这种方式注册的事件有效
+
+		// 第二种方法
+		btn.removeEventListener('click', f1);  // 两个参数，第一个为事件类型，第二个为移除的回调函数名
+
+		// // 第三种
+		// btn.detachEvent('onclick', f2);  // 与第一种方法差不多，只能注册旧版 ie
+
+
+
+		// addEventListener() 第三个参数的作用是设置事件的响应阶段，可以传入一个boolean类型，只有这个方法才有的功能
+		// 另外两个功能只能支持事件冒泡
+		// 传入 true就是事件捕获，传入 false 就是事件冒泡,默认就是事件冒泡
+		// 事件的三个阶段
+		/*
+			1.捕获阶段，这个就是当你触发事件的时候，先从外到里
+			2.当前目标阶段，这个就是传到目标的阶段
+			3.冒泡阶段，这个就是从内到外，比如目标，然后最后到 body
+		*/
+		// 事件委托：原理是事件冒泡，有些子元素的事件可以让父元素注册，这样可以减少事件的注册
+		var box1 = $my('box1');
+		var box2 = $my('box2');
+		var box3 = $my('box3');
+		box3.addEventListener('click', function(){  // 这个默认就是事件冒泡，当点击 box3 的时候，该事件也会传给 box2 ，接着再传 box1，最后为body
+			console.log(this.id);
+		});
+		box2.addEventListener('click', function(){  // 如果为事件捕获，就如上面顺序相反
+			console.log(this.id);
+		});
+		box1.addEventListener('click', function(){
+			console.log(this.id);
+		});
+
+		document.body.addEventListener('click', function(){
+			console.log('body');
+		});
+
+
+		// 案例：事件冒泡的应用，点击列表项就高亮
+		// 由于事件冒泡，所以不需要单独为每个列表项都诛注册事件，只需要为整个列表注册点击事件即可
+		var ul = document.getElementsByTagName('ul')[0];
+		ul.onclick = function(e){  // 事件的处理函数的参数可以获取一些与事件源相关的信息
+			// 设置高亮显示
+			e.target.className = 'red';  // e.target这个是点击的目标事件源
+		}
+
+	</script>
+</body>
+</html>
