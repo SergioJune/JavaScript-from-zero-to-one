@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WEBAPI03自定义属性</title>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div id='content'>我是div</div>
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// 自定义属性，定义什么属性都可以，直接用对象名来和像内置对象那样获取会返回 undefined
+		content = $my('content');
+		console.log(content.age);  // 返回 undeifined
+
+		// 使用 getAttribute 和 setAttribute 可以获取和设置
+		content.setAttribute('age', 23);  // 设置属性，第一个参数为属性名字，第二个值
+		console.log(content.getAttribute('age'));  // 获取属性
+
+		//
+		console.log(content.getAttribute('id'));  // 这个还可以获取内置属性
+
+		// 删除属性
+		content.removeAttribute("age");	
+
+
+		// || 运算符：如果左边为 true的话，就会把左边的值赋值，反之不管右边的值如何，都会把右边的值赋值
+		var temp = undefined || null;
+		console.log(temp);
+		temp = null || undefined;
+		console.log(temp);
+		// 利用上面这个运算符可以使三元运算符变得更短
+
+
+		
+		
+	</script>
+</body>
+</html>
