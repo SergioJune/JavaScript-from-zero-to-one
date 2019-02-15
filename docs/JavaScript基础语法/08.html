@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript基础语法08之常用对象的方法</title>
+</head>
+<body>
+	
+<script type="text/javascript">
+	// Math对象，用于处理与数学有关的问题，同时这个对象的属性和方法都是静态成员，不需要创建对象也可以使用该对象的方法和属性
+	console.log(Math.PI);  // 圆周率
+
+	// 向下取整和向上取整
+	console.log(Math.floor(2.65));  // 结果是取比参数小于等于的最大整数
+	console.log(Math.ceil(2.65));  // 结果是取比参数大于等于的最小整数
+
+	// 四舍五入
+	console.log(Math.round(2.65));  // 3
+	console.log(Math.round(2.4));   // 2
+
+	// 取绝对值
+	console.log(Math.abs(-8));
+	console.log(Math.abs(8));
+
+	// 取一堆数中的最大值
+	console.log(Math.max(5,6,3,8,4,1,9,36,23));  // 36
+	// 去最小值为 Math.min()
+
+	// 正弦余弦
+	console.log(Math.sin(90));
+	console.log(Math.cos(1));
+
+	// 指数次幂
+	console.log(Math.pow(2, 3));  //2的3次方
+	// 平方根
+	console.log(Math.sqrt(2));  //根号 2
+	console.log(Math.sqrt(16));
+
+	// 0-1 包含1的随机数
+	console.log(Math.random());
+
+
+	// 案例：求10-20之间的随机数
+	r = Math.floor(Math.random() * (20 - 10 + 1) + 10)
+	console.log(r);
+
+
+
+	// Date对象，用于操作与日期有关的问题
+	// 创建对象
+	var d = new Date();  // 空参数表示时间是当前
+	console.log(d);  // Thu Feb 07 2019 10:04:06 GMT+0800 (中国标准时间)
+	console.dir(d);
+
+	// 获取时间戳
+	console.log(d.valueOf());  // 毫秒的距离
+	console.log(d.getTime());  // 一般建议用这个
+
+	// 获取当前时间的时间戳
+	console.log(Date.now());
+	console.log(+d);  // 这个也可以，用取正来转数值
+
+	// Date 构造函数的四种传参的不同
+	// 传入空参数
+	d = new Date();  // 获取的是当前时间的对象
+	console.log(d.getTime());
+	// 传入毫秒值
+	d = new Date(124144641);  // 获取的是以该时间戳所对应的日期
+	console.log(d);
+	//传入日期形式
+	d = new Date('05-5-6 8:8:8');
+	console.log(d);
+	// 传入年月日等
+	d = new Date(1998, 5, 20);  // 注意：这个月是从0开始的，所以这里的 5 代表的是 6月
+	console.log(d);
+
+	d = new Date();
+	// 获取具体的时间
+	console.log(d.toString());
+	// 获取以美国人习惯的格式的日期
+	console.log(d.toDateString());
+	// 获取以美国人习惯的格式的时间
+	console.log(d.toTimeString());
+	// 获取以本地人的习惯的形式的日期和时间
+	console.log(d.toLocaleDateString());  // 可以传相应的参数来返回不用格式的结果
+	console.log(d.toLocaleTimeString());
+
+	// 获取秒
+	console.log(d.getSeconds());  // 范围 0-59
+	// 获取分
+	console.log(d.getMinutes());  // 范围 0-59
+	// 获取小时
+	console.log(d.getHours());  // 范围 0-23
+	// 获取星期
+	console.log(d.getDay());  // 范围 0-6  0 代表星期日
+	// 获取日
+	console.log(d.getDate());  // 获取在该月的第几天
+	// 获取月
+	console.log(d.getMonth());  // 范围 0-11
+	// 获取年份
+	console.log(d.getFullYear());  // 获取长度为 4 的年份
+
+
+	// 案例：写一个函数，格式化日期
+	function formatDate(date){
+		if (date instanceof Date){
+			// 年份
+			year = date.getFullYear();
+			// 月份
+			month = date.getMonth() + 1;  // 不要忘记加一
+			// 日
+			day = date.getDate();
+			// 星期
+			week = date.getDay();
+			switch(week){
+				case 0:
+					week = '星期日';
+					break;
+				case 1:
+					week = '星期一';
+					break;
+				case 2:
+					week = '星期二';
+					break;
+				case 3:
+					week = '星期三';
+					break;
+				case 4:
+					week = '星期四';
+					break;
+				case 5:
+					week = '星期五';
+					break;
+				case 6:
+					week = '星期六';
+					break;
+			}
+
+			// 时
+			hour = date.getHours();
+			// 分
+			minute = date.getMinutes();
+			// 秒
+			second = date.getSeconds();
+
+			return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second + '  ' +week;
+		}else
+			console.log("参数传错了");
+	}
+
+	console.log(formatDate(new Date()));
+
+	// 案例，返回两个时间的时间差，返回格式 day/hour/mintute/second
+	function getTimeDid(start, end){
+		// 两个时间戳减去，表示差别的秒数
+		var time = Math.round((end - start) / 1000);
+		// 天数
+		var days = parseInt(time / 60 / 60 / 24);
+		// 小时数
+		var hours = parseInt(time / 60 / 60 % 24);
+		// 分钟数
+		var minutes = parseInt(time / 60 % 60);
+		// 秒数
+		var seconds = time % 60;
+
+		return days + '/' + hours + '/' + minutes + '/' + seconds;
+	}
+	// 现在的时间距离 2019-3-3 的时间差
+	var date = new Date(2019, 2, 3);
+	console.log(getTimeDid(new Date(), date));
+
+
+	// Array对象
+	// 创建对象
+	var arr = new Array(1, 6, 9,5 ,4, 6);
+	console.dir(arr);
+
+	// 数组的长度
+	console.log(arr.length);
+
+	// 判断对象是否为数组
+	console.log(Array.isArray(arr));
+
+	// 转为字符串,每个元素以逗号连接
+	console.log(arr.toString());
+
+	// 以栈的方式操作数组
+	arr.push(89);  // 往数组末端添加元素
+	console.log(arr);
+	arr.pop();  // 删除末端的元素
+	console.log(arr);
+
+	// 以队列的方式操作数组
+	arr.push(56);
+	arr.shift();  // 删除头部元素
+	console.log(arr);
+	arr.unshift(0);  // 把元素插入到首位置
+	console.log(arr);
+
+	// 反转数组
+	arr.reverse();  // 因为数组是对象，直接存在堆中，在赋值时只是把存储的地址赋值了给别的变量，所于当受改变时会一起改变
+	console.log(arr);
+
+	// 排序
+	arr.sort();  // 注意：这个排序并不是按照数值的大小排序，而是根据 ascill 编码表的顺序进行排序的。但我们可以指定排序方式，写一个比较器即可
+	console.log(arr);  
+
+	// 根据自己的比较器进行排序
+	arr.sort(function(a, b){  // 这样就可以按照我们指定的顺序排序了
+		// 小于 0 就代表 a 小于 b，这样就 a 排在前面，逆序只需要更改下参数的顺序即可
+		return a - b;
+	})
+	console.log(arr);
+
+	// 合并两个数组，不会更改原数组，而是生成一个新的数组
+	var a = arr.concat(5);
+	console.log(a);
+
+	// 截取数组
+	arr = arr.slice(0, 5);  // 第一个参数为开始截取的坐标，第二个为截取的长度，生成一个新的数组
+	console.log(arr);
+
+	//删除和添加当前的数组
+	arr.splice(1, 1); // 从第一个位置开始删除1个元素，第三个参数可选，为添加的元素，元素插入的位置和添加的个数由前面两个参数决定 
+	console.log(arr);
+
+	// 根据元素寻找位置
+	console.log(arr.indexOf(6));  // 没有找到返回 -1
+	console.log(arr.lastIndexOf(6));  // 从末尾往回找
+
+	// 用字符来连接数组
+	console.log(arr.join('|'));
+
+	// 案例，找到数组中每个字符 a 出现的位置
+	var str = ['l','a','k','k','j','l','a','j','n','g','l','a','a','n','o','a','a','l','k',';','j'];
+	var indexs = [];
+	var i = 0;
+	var index = -1;
+	while(1){
+		index = str.indexOf('a', i);
+		if(index !== -1){
+			indexs.push(index);
+			i = index + 1;
+		}else
+			break;
+		
+	}
+	console.log(str);
+	console.log(indexs);
+	
+
+	// 基本包装类型，就是指有基本类型包装而成的复杂类型，如String, Number, Boolean
+	// String 对象
+	var s = new String('546545');
+	console.dir(s);
+
+	// 获取指定位置的字符
+	console.log(s.charAt(5));
+
+	// 获取指定位置的字符的 Ascill 编码
+	console.log(s.charCodeAt(5));
+
+	// 拼接字符，如使用 + 拼接的效果一样
+	// 字符串一旦创建，就不可更改，所以拼接字符串都会去创建一个新的字符串，当拼接大量的字符串时候就会有性能的问题
+	console.log(s.concat('456746sd'));
+
+	// 截取字符串
+	console.log(s.slice(1, 5));  // 从第一个位置截取到第四个位置，不包括第四
+	console.log(s.substr(1, 5));  // 从第一个位置开始截取 5 个字符
+
+	// 获取指定字符的位置
+	console.log(s.indexOf('6'));
+	console.log(s.lastIndexOf('6'));
+	console.log(s);
+
+	// 去除两端字符的空格
+	console.log('  42gvfsg    '.trim());
+
+	// 转大写/转小写
+	s = 'fgaghi'
+	console.log(s.toUpperCase());
+	console.log(s.toLowerCase());
+
+	// 案例：去除字符串中所有的空白
+	s = '   dsfs   sfssd       adasff     '
+	var strs = s.split(' ');
+	s = strs.join('');
+	console.log(s);
+
+	// 找出字符串中出现最多的字符以及次数
+	s = 'fgshafgaowjoa;otgawhgarhtgrhntgthawo';
+	str = '';
+	num = {}
+	for (var i = 0, len = s.length; i < len; i++){
+		if (s[i] in num){
+			num[s[i]] ++;
+		}else{
+			num[s[i]] = 1;
+		}
+	}
+	console.log(num);
+
+	arr = [];
+	var n = 0;
+	var char;
+	for(key in num){
+		if(num[key] > n){
+			n = num[key];
+			char = key;
+		}
+	}
+	console.log(char, n);
+
+
+
+
+</script>
+</body>
+</html>
