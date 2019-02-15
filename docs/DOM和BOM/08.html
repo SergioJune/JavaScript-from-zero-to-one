@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WEBAPI08BOM</title>
+	<style type="text/css">
+		body {
+	      margin: 0;
+	      padding: 0;
+	    }
+	    #tip {
+	      width: 150px;
+	      height: 30px;
+	      background-color: lightgray;
+	      opacity: 0.5;
+	      margin:200px auto;
+	      padding-top: 5px;
+	      text-align: center;
+	      color: red;
+	      display: none;
+	    }
+	</style>
+</head>
+<body>
+	<input type="button" id="btn" value="删除">
+  	<div id="tip">删除成功</div>
+
+  	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// BOM: broswer object model,浏览器对象模型
+		// BOM顶级对象为 window，当我们使用 window 对象的成员时可以省略写 window，默认就是 window
+		// 定义的全局变量都是 window 的属性
+
+		// alert('提示框');  // 提示框
+		// prompt('提示输入内容',  0);  // 输入内容框
+		// confirm('确认内容');  // 确认内容框
+
+		// // 两个事件
+		// // onload:页面加载完成之后才执行
+		// window.onload = function(){
+		// 	window.alert('加载完了');
+		// }
+		// // onunload:页面卸载时调用,指关闭页面
+		// // 刷新页面的过程：先卸载页面，再重新加载页面
+		// window.onunload = function(){  // 这个事件内部里的对话框不能使用，无效
+		// }
+
+
+		// 定时器
+		// setTimeout():这个是炸弹，在指定时间内只执行一次
+		// setInterval():这个是闹钟，在指定间隔时间内不断执行
+		// setTimeout(function(){
+		// 	console.log('我是闹钟');
+		// }, 5000);  // 两个参数，第一个为所做的事情，第二个为间隔时间
+		// setInterval(function(){  // 这个的参数和上面的一样
+		// 	console.log('我是炸弹');
+		// }, 5000);
+
+		// 案例：删除提示
+		var btn = $my('btn');
+		var tip = $my('tip');
+		btn.onclick = function(){
+			// 设置可显示
+			tip.style.display = 'block';
+			// 因为过一段时间需要自己自动消失，所以需要用炸弹
+			setTimeout(function(){
+				tip.style.display = 'none';
+			}, 5000);
+		}
+	</script>
+</body>
+</html>
