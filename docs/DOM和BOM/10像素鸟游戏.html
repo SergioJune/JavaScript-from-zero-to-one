@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>像素鸟游戏</title>
+	<style type="text/css">
+		* {
+            margin: 0;
+            padding: 0;
+        }
+
+        #game {
+            width: 800px;
+            height: 600px;
+            background: url('./images/sky.png');
+            position: relative;
+            overflow: hidden;
+        }
+
+        #bird {
+            width: 34px;
+            height: 25px;
+            background: url('./images/birds.png')  no-repeat -8px -10px;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+	</style>
+</head>
+<body>
+	<div id="game">
+        <div id="bird"></div>
+    </div>
+
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// 让页面滚动起来
+		window.onload = function(){
+			var game = $my('game');
+			var bird = $my('bird');
+
+			// 移动背景图像得的位置让小鸟动起来
+			var sky = {  // 背景图片的对象
+				'step': -5,  // 移动的速度,背景图片向后移，小鸟才是向前移
+				'x': 0  // 图片的横轴定位
+			}
+			var birdImage = {  // 小鸟对象
+				'speed': 4,  // 移动的速度
+				'x': bird.offsetLeft,  
+				'y': bird.offsetTop
+			}
+
+			var flag = true;  // 标志游戏是否结束
+			var timeId = setInterval(function(){
+				if (flag) {
+					sky.x += sky.step;
+					// game.style.backgroundPositionX 这个为背景图片的定位，如果没有设置默认就是空字符串
+					game.style.backgroundPositionX = sky.x + 'px';  // 因为背景图片是重复的，所以可以无限滚动
+
+					// 改变速度
+					birdImage.speed ++;
+					birdImage.y += birdImage.speed;
+					
+					// 小鸟向上移动超出距离也停止
+					if (birdImage.y <= game.offsetTop) {  // 超出背景图片的距离
+						birdImage.y = game.offsetTop;
+						flag = false;
+					}
+
+					// 判断，超出距离停止
+					if (birdImage.y + bird.offsetHeight >= game.offsetHeight) {  // 这个需要注意 bird 自身的 height
+						birdImage.y = game.offsetHeight - bird.offsetHeight;
+						flag = false;
+					}
+					// 小鸟向下运动
+					bird.style.top = birdImage.y + 'px';
+				}else{
+					alert('游戏结束');
+					clearInterval(timeId);
+				}
+
+			}, 30);
+
+			// 当点击游戏内时小鸟向上移动
+			game.onclick = function(){
+				birdImage.speed = -10;
+			}
+
+			// 生成障碍物管道
+			function createPipe(indexX){  // 参数为距离左的距离
+				var pipe = {}  // 管道对象
+				pipe.distance = Math.floor(Math.random() * 51 + 150);  // 两个管道之间的距离, 150-200
+				pipe.uHeight = Math.floor(Math.random() * 201 + 100);  // 上管道的高度，200 - 300
+				pipe.dTop = pipe.distance + pipe.uHeight;  // 下管道到上管道的距离
+				pipe.dHeight = game.offsetHeight - pipe.dTop;  // 下管道的高度
+				pipe.x = indexX;
+				// 上管道
+				var upPipe = document.createElement('div');
+				upPipe.style.background = 'url("./images/pipe2.png") no-repeat center bottom';
+				upPipe.style.position = 'absolute';
+				upPipe.style.width = 52 + 'px';  // 源图片是 52 x 420
+				upPipe.style.height = pipe.uHeight + 'px';
+				upPipe.style.left = pipe.x + 'px';
+				upPipe.style.top = 0 + 'px';
+				game.appendChild(upPipe);
+
+				// 下管道
+				var downPipe = document.createElement('div');
+				downPipe.style.background = 'url("./images/pipe1.png") no-repeat center top';
+				downPipe.style.position = 'absolute';
+				downPipe.style.width = 52 + 'px';
+				downPipe.style.height = pipe.dHeight + 'px';
+				downPipe.style.left = pipe.x + 'px';
+				downPipe.style.top = pipe.dTop + 'px';
+				game.appendChild(downPipe);
+
+
+				// 管道运动
+				var timeId = setInterval(function(){
+					if (flag) {
+						pipe.x -= 2;  // 移动速度
+						upPipe.style.left = pipe.x + 'px';
+						downPipe.style.left = pipe.x + 'px';
+
+						// 判断是否重新创建新的管道
+						if (pipe.x <= -52) {  // 完全消失
+							pipe.x = 800;  // 直接更改这个的横坐标即可
+							// 这里如果创建新的元素的时候会产生大量的元素，因为当符合条件之后，没运行一次都会去创建
+						}
+
+						// 停止运动
+						var uCheck = birdImage.x + bird.offsetWidth > pipe.x && birdImage.y < pipe.uHeight && birdImage.x < pipe.x + upPipe.offsetWidth;
+						var dCheck =  birdImage.x + bird.offsetWidth > pipe.x && birdImage.y + bird.offsetWidth - 2 > pipe.dTop&& birdImage.x < pipe.x + upPipe.offsetWidth;
+
+						if (uCheck || dCheck){
+							flag = false;
+						}
+					}else{
+						clearInterval(timeId);
+					}
+					
+				}, 30);
+			}
+
+			// 四个管道铺满页面
+			createPipe(400);
+			createPipe(600);
+			createPipe(800);
+			createPipe(1000);
+			
+		}
+	</script>
+</body>
+</html>
