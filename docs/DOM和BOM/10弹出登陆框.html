@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>10弹出登陆框</title>
+	<style type="text/css">
+		.login-header {
+            width: 100%;
+            text-align: center;
+            height: 30px;
+            font-size: 24px;
+            line-height: 30px;
+        }
+        ul, li, ol, dl, dt, dd, div, p, span, h1, h2, h3, h4, h5, h6, a {
+            padding: 0px;
+            margin: 0px;
+        }
+        .login {
+            width: 512px;
+            height: 280px;
+            position: absolute;
+            border: #ebebeb solid 1px;
+            left: 50%;
+            right: 50%;
+            background: #ffffff;
+            box-shadow: 0px 0px 20px #ddd;
+            z-index: 9999;
+            margin-left: -256px;
+            margin-top: 140px;
+            display: none;
+        }
+        .login-title {
+            width: 100%;
+            margin: 10px 0px 0px 0px;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+            font-size: 18px;
+            position: relative;
+            cursor: move;
+            -moz-user-select:none;/*火狐*/
+            -webkit-user-select:none;/*webkit浏览器*/
+            -ms-user-select:none;/*IE10*/
+            -khtml-user-select:none;/*早期浏览器*/
+            user-select:none;
+        }
+        .login-input-content {
+            margin-top: 20px;
+        }
+        .login-button {
+            width: 50%;
+            margin: 30px auto 0px auto;
+            line-height: 40px;
+            font-size: 14px;
+            border: #ebebeb 1px solid;
+            text-align: center;
+        }
+        .login-bg {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            background: #000000;
+            filter: alpha(opacity=30);
+            -moz-opacity: 0.3;
+            -khtml-opacity: 0.3;
+            opacity: 0.3;
+            display: none;
+        }
+        a {
+            text-decoration: none;
+            color: #000000;
+        }
+        .login-button a {
+            display: block;
+        }
+        .login-input input.list-input {
+            float: left;
+            line-height: 35px;
+            height: 35px;
+            width: 350px;
+            border: #ebebeb 1px solid;
+            text-indent: 5px;
+        }
+        .login-input {
+            overflow: hidden;
+            margin: 0px 0px 20px 0px;
+        }
+        .login-input label {
+            float: left;
+            width: 90px;
+            padding-right: 10px;
+            text-align: right;
+            line-height: 35px;
+            height: 35px;
+            font-size: 14px;
+        }
+        .login-title span {
+            position: absolute;
+            font-size: 12px;
+            right: -20px;
+            top: -30px;
+            background: #ffffff;
+            border: #ebebeb solid 1px;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+        }
+	</style>
+</head>
+<body>
+	<div class="login-header"><a id="link" href="javascript:void(0);">点击，弹出登录框</a></div>
+	<div id="login" class="login" >
+	    <div id="title" class="login-title">登录会员
+	        <span><a id="closeBtn" href="javascript:void(0);" class="close-login">关闭</a></span>
+	    </div>
+	    <div class="login-input-content">
+	        <div class="login-input">
+	            <label>用户名：</label>
+	            <input type="text" placeholder="请输入用户名" name="info[username]" id="username" class="list-input">
+	        </div>
+	        <div class="login-input">
+	            <label>登录密码：</label>
+	            <input type="password" placeholder="请输入登录密码" name="info[password]" id="password" class="list-input">
+	        </div>
+	    </div>
+	    <div id="loginBtn" class="login-button"><a href="javascript:void(0);" id="login-button-submit">登录会员</a></div>
+	</div>
+	<!-- 遮盖层 -->
+	<div id="bg" class="login-bg" ></div> 
+
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// 点击弹出登陆框
+		var link = $my('link');
+		var login = $my('login');
+		var bg = $my('bg');
+        
+		link.onclick = function(){
+			login.style.display = 'block';
+			// 遮罩层也需要弹出
+			bg.style.display = 'block';
+			return false;
+		}
+
+		// 拖动登陆框
+		var title = $my('title');
+		title.onmousedown = function(e){
+			var x = getPage(e).pageX - login.offsetLeft;
+			var y = getPage(e).pageY - login.offsetTop;
+			// 鼠标滑动
+			document.onmousemove = function(e){
+				var boxX = getPage(e).pageX - x;
+				var boxY = getPage(e).pageY - y;
+				// 这里需要加的数是他们在样式设置时加的 margin 值
+				login.style.left = boxX + 256 + 'px';
+				login.style.top = boxY - 140 + 'px';
+			}
+		}
+
+		title.onmouseup = function(){
+			document.onmousemove = null;  // 鼠标弹起来不再拖动登陆框
+		}
+
+		// g关闭登陆框
+		var close = $my('closeBtn');
+		close.onclick = function(){
+			login.style.display = 'none';
+			bg.style.display = 'none';
+		}
+	</script>
+</body>
+</html>
