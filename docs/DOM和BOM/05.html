@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WEBAPI05动态创建元素</title>
+	<style type="text/css">
+		.red{
+			background-color: red;
+		}
+		table{
+			border-collapse: collapse;
+		}
+
+		select {
+            width:200px;
+            height: 200px;
+            background-color: #33cccc;
+            font-size: 20px;
+        }
+	</style>
+</head>
+<body>
+	<div id="content">
+		<p>first</p>
+		<p>second</p>
+	</div>
+	<button id='btn'>按钮</button>
+		
+	<select id="all" multiple="multiple">
+	    <option>苹果</option>
+	    <option>橘子</option>
+	    <option>梨</option>
+	    <option>西瓜</option>
+	    <option>水蜜桃</option>
+  	</select>
+
+  	<input type="button" value=">>" id="btn1">
+  	<input type="button" value="<<" id="btn2">
+  	<input type="button" value=">" id="btn3">
+  	<input type="button" value="<" id="btn4">
+
+  	<select id="select" multiple="multiple"></select>
+
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// 动态创建元素
+		// document.write() : 会把原来的 html 标签都覆盖掉
+		document.write('<p>新的p标签</p>');  // 这样子指挥在下面添加这个东西，会解析 html标签
+
+		var btn = $my('btn');
+		// btn.onclick = function(){  // 这样子的话会把之前的内容覆盖掉
+		// 	document.write('hello <p>新的内容</p>');  // 这个地方常应用于那些点击按钮弹客服对话框的
+		// }
+
+		// innerHTML 属性，这个也可以动态创建元素，里面也会解析html标签
+		// 这里面有个效率的问题：因为字符串是不可变，每次有字符串的改变都是需要重新创建一个字符串，所以效率会慢点，还有如果需要使用这个方法多次的话，也会影响效率，因为每次需要重新绘制
+		// 解决方案：将多次执行的这个方法改为只执行一次，就是只使用 innerHTML 一次，这些可变的字符串就都用数组存起来，最后就拼接，再使用这方法即可
+		var last = $my('content').lastElementChild;
+		console.dir(last);
+		last.innerHTML = '<p>我也有子元素了</p>';  // 也会覆盖这个元素之前的 内容
+
+		// document.createElement():动态生成元素对象，生成的对象可以与用DOM获取到的元素对象一样进行更改相关的值
+		// 可以用 appendChild() 添加到某个元素的子元素末尾
+		var pLast = document.createElement('p');
+		pLast.innerText = '我也来了'
+		// 添加到 id 为 content 的子元素
+		$my('content').appendChild(pLast);
+
+
+		// 案例：动态创建列表，鼠标经过高亮显示该项
+		var data = ['西施', '芙蓉', '貂蝉', '昭君']
+		//创建 ul
+		btn.onclick = function(){  // 点击按钮创建列表
+			var ul = document.createElement('ul');
+			// 添加到文档中
+			document.body.appendChild(ul);
+			// 循环创建列表项
+			for (var i = 0, len = data.length; i < len; i++) {
+				var li = document.createElement('li');
+				li.innerText = data[i];
+				// 设置鼠标经过对象
+				li.onmouseover = function(){
+					this.className = 'red';
+				}
+
+				// 设置鼠标离开事件
+				li.onmouseout = function(){
+					this.className = '';
+				}
+				// 添加到 ul
+				ul.appendChild(li);
+			}
+		}
+
+		// 案例：动态创建表格，实现删除功能
+		var titles = ['姓名', '科目', '成绩', '删除'];
+		var datas = [
+				      {name: 'zs', subject: '语文', score: 90},
+				      {name: 'ls', subject: '数学', score: 80},
+				      {name: 'ww', subject: '英语', score: 99},
+				      {name: 'zl', subject: '英语', score: 100},
+				      {name: 'xs', subject: '英语', score: 60},
+				      {name: 'dc', subject: '英语', score: 70}
+				    ];
+		// 创建table标签
+		var table = document.createElement('table');
+		// 设置相关属性
+		table.border = '1px';
+		table.width = '400px';
+		// 添加到文档上
+		document.body.appendChild(table);
+
+		// 创建 thead 标签
+		var thead = document.createElement('thead');
+		// 设置相关样式
+		thead.style['background-color'] = 'lightgray';
+		thead.width = '100px';
+		// 添加到 table 内
+		table.appendChild(thead);
+
+		// 添加行和列
+		var tr = document.createElement('tr');
+		tr.style.height = '40px';
+		console.log(tr.height);
+		thead.appendChild(tr);
+		for (var i = 0, len = titles.length; i < len; i++) {
+			var th = document.createElement('th');
+			// 设置内容
+			th.innerText = titles[i];
+			// 添加到 tr 内
+			tr.appendChild(th);
+		}
+
+		// 数据内容的行列
+		// 创建tbody
+		var tbody = document.createElement('tbody');
+		tbody.style['text-align'] = 'center';
+		table.appendChild(tbody);
+		for (var i = 0, len = datas.length; i < len; i++) {
+			// 创建tr
+			var tr = document.createElement('tr');
+			tbody.appendChild(tr);	
+
+			for (key in datas[i]) {
+				var td = document.createElement('td');
+				td.innerText = datas[i][key];
+				tr.appendChild(td);
+			}
+
+			// 删除按钮
+			var td = document.createElement('td');
+			tr.appendChild(td);
+			// 链接
+			var a = document.createElement('a');
+			a.innerText = '删除';
+			a.href = '';
+			// 设置点击按钮事件
+			a.onclick = aClick;
+			td.appendChild(a);
+		}
+
+		function aClick(){
+				var tr = this.parentNode.parentNode;
+				// 删除
+				tbody.removeChild(tr);
+				return false;  // 取消默认跳转
+			}
+
+
+
+		// 把元素插入到指定位置的前面
+		var ppp = document.createElement('p');
+		ppp.innerText = '插入标签'
+		// 调用者为父元素
+		content.insertBefore(ppp, pLast);  // 第一个参数为插入的元素， 第二个参数为插入的位置
+
+
+		// appendChild(): 如果添加的元素已存在在本页面中，会先移除此元素再添加到指定位置
+		// 案例：选择水果，把选择到的水果移到另一边，可以多选，全选
+		var all = $my('all');
+		var select = $my('select');
+		var btn1 = $my('btn1');
+		var btn2 = $my('btn2');
+		var btn3 = $my('btn3');
+		var btn4 = $my('btn4');
+
+		// 注册按钮点击事件，点击一个移到右边
+		btn1.onclick = function(){
+			for (var i = 0, len = all.children.length; i < len; i++) {  // 注意一处后长度会变化
+				var option = all.children[0];
+				// 取消被选中
+				option.selected = false;
+				// 添加到右边
+				select.appendChild(option);
+			}
+		}
+
+		btn2.onclick = function(){
+			for (var i = 0, len = select.children.length; i < len; i++) {  // 注意一处后长度会变化
+				var option = select.children[0];
+				// 取消被选中
+				option.selected = false;
+				// 添加到右边
+				all.appendChild(option);
+			}
+		}
+
+		// 移动已选到的
+		btn3.onclick = function(){
+			var len = all.children.length;
+			var i = 0, moveNum = 0;  // 移动的个数
+			while( len > 0){
+				// 判断跳出循环
+				if (i + moveNum >= len)
+					break;
+				var option = all.children[i];
+				if (option.selected){
+					select.appendChild(option)
+					option.selected = false;
+					moveNum++;
+				}
+				else{
+					i++;
+				}
+			}
+		}
+
+		// 右边移动到左边
+		btn4.onclick = function(){
+			var len = select.children.length;
+			var i = 0, moveNum = 0;  // 移动的个数
+			while( len > 0){
+				// 判断跳出循环
+				if (i + moveNum >= len)
+					break;
+				var option = select.children[i];
+				if (option.selected){
+					all.appendChild(option)
+					option.selected = false;
+					moveNum++;
+				}
+				else{
+					i++;
+				}
+			}
+		}
+		
+	</script>
+</body>
+</html>
