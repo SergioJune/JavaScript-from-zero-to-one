@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>08简单动画</title>
+	<style type="text/css">
+		body{
+			margin:0;
+			padding:0;
+			position: relative;
+		}
+		#box{
+			position: absolute;
+			width:100px;
+			height: 100px;
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<div id='content'>
+		<button id='btn'>开始</button>
+		<div id='box'></div>
+	</div>
+
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		var btn = $my('btn');
+		var box = $my('box');
+		btn.onclick = function(){  // 点击按钮，开始运动
+			// 设置闹钟
+			var step = 5;
+			var end = 600;
+			var timeId = setInterval(function(){
+				box.style.left = box.offsetLeft + step + 'px';
+				if ((end - box.offsetLeft) < step){
+					clearInterval(timeId);  // 到达指定位置就停止
+					// 设置盒子位置
+					box.style.left = end + 'px';  // 回到指定的结束位置
+					return 
+				}
+			}, 30);
+		}
+	</script>
+</body>
+</html>
