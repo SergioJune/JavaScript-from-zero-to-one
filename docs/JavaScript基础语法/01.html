@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript基础01</title>
+</head>
+
+<body>
+	
+<script type="text/javascript">
+	// 这个是单行注释
+	var a = 123;
+	console.log(a);
+
+	// 定义多个变量
+	var x, y, z;
+	x = 'asd';
+	y = true;
+	console.log(x, y, z);
+
+	// 也可以这样
+	var q = 123, w = 456, e = 789;
+	console.log(q, w, e);
+
+	// // 变量名的规则和规范
+	// var _sd = 'asd';
+	// console.log(_sd);
+
+	// var $btn = 'btn';
+	// console.log($btn);
+
+	// var 12de = 'd';  // 不能以数字开头
+	// console.log(12de);
+
+	// 交换两个变量的值
+	var a = 5, b = 6;
+	// 使用第三方变量
+	var temp = a;
+	a = b;
+	b = temp;
+	console.log(a, b);
+
+	// 不使用第三方变量
+	a = a + b;
+	b = a - b;
+	a = a - b;
+	console.log(a, b);
+
+</script>
+</body>
+</html>
