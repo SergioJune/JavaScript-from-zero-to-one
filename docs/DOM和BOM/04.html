@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WEBAPI04层次结构</title>
+	<style type="text/css">
+		.red{
+			background-color: red;
+		}
+		.green{
+			background-color: green;
+		}
+
+		#menu ul li {
+            list-style-type: none;
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            background-color:beige;
+            text-align: center;
+            float: left;
+            margin-left: 5px;s
+        }
+
+        #menu ul li.current {
+            background-color: burlywood;
+        }
+
+        #menu ul li a {
+            text-decoration: none;
+        }
+	</style>
+</head>
+<body>
+	<div id='content'>
+		我是div
+		<p id='first'>p标签</p>
+		<p>第二个</p>
+	</div>
+
+	<div id='heroes'>
+		<ul>
+			<li>无极剑圣</li>
+			<li>堕落天使</li>
+			<li>亚索</li>
+			<li>锐雯</li>
+			<li>艾希</li>
+		</ul>
+
+		<a href="javascript: void(0)" >点击</a>  <!-- 这样a标签也不能跳转 void是一个运算符，不论怎样，都返回endefined -->
+	</div>
+
+
+	<div id="menu">
+        <ul>
+            <li class="current" index='0'><a href="javascript:void(0)">首页</a></li>
+            <li index='1'><a href="javascript:undefined">播客</a></li>
+            <li index='2'><a href="javascript:void(0)">博客</a></li>
+            <li index='3'><a href="javascript:void(0)">相册</a></li>
+            <li index='4'><a href="javascript:void(0)">关于</a></li>
+            <li index='5'><a href="javascript:void(0)">帮助</a></li>
+        </ul>
+    </div>
+
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// 节点有属性节点、元素节点、文本节点和注释节点
+		// 层次结构：比如父子结构
+
+		// 获取子节点，注意节点有属性节点、元素节点、文本节点和注释节点
+		content = $my('content');
+		console.log(content.childNodes);  // 返回的是一个list
+
+		// 获取父节点
+		pFirst = $my('first');
+		console.dir(pFirst.parentNode);
+		// 判断是否有子节点
+		console.log(pFirst.hasChildNodes());
+
+		// 获取子元素
+		console.log(content.children);  // 动态更新的
+
+		// 案例：隔行变色
+		ul = $my('heroes').children[0];
+		for (var i = 0, len = ul.children.length; i < len; i++) {
+			if (i % 2 == 0)
+				ul.children[i].className = 'red';
+			else
+				ul.children[i].className = 'green';
+		}
+
+
+		// 获取第一个子节点
+		console.log(content.firstChild);
+		// 获取最后一个子节点
+		console.log(content.lastChild);
+
+		// 获取第一个子元素  有浏览器兼容性问题
+		console.dir(content.firstElementChild);
+		// 获取最后一个子元素
+		console.dir(content.lastElementChild);
+
+		// 案例：点击菜单项高亮显示
+		var linkClick = function(){  // 点击的事件函数抽取出来可以节省内存的空间，不需要每次定义事件都额外开取一空间
+			console.log(lis[index]);
+				// 首先清除高亮的样式
+				lis[index].className = '';
+				// 设置本次点击的高亮
+				this.className = 'current';  // this 的指向为事件源
+				// 更改 index
+				index = parseInt(this.getAttribute('index'));
+			};
+
+		var menu = $my('menu');
+		var lis = menu.children[0].children;
+		// 记录高亮显示的位置
+		var index = 0;  // 默认为首位置
+		// 注册点击事件
+		for (var i = 0, len = lis.length; i < len; i++) {
+			var li = lis[i];
+			var a = li.firstElementChild;  // 首个子元素
+			a.parentNode.onclick = linkClick;
+		}
+
+		
+		// 获取下一个兄弟节点
+		console.log(content.nextSibling);
+		// 获取上一个兄弟节点
+		console.log(menu.previousSibling);
+
+		// 这个也有浏览器兼容问题
+		// 获取下一个兄弟元素
+		console.log(content.nextElementSibling);
+		// 获取上一个兄弟元素
+		console.log(menu.previousElementSibling);  // 无则返回 null
+
+	</script>
+</body>
+</html>
