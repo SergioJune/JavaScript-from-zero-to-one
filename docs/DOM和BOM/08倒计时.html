@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>08倒计时页面</title>
+	<style type="text/css">
+		.time-item {
+	      width: 450px;
+	      height: 45px;
+	      margin: 0 auto;
+	    }
+    
+	    .time-item strong {
+	        background: orange;
+	        color: #fff;
+	        line-height: 49px;
+	        font-size: 36px;
+	        font-family: Arial;
+	        padding: 0 10px;
+	        margin-right: 10px;
+	        border-radius: 5px;
+	        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+	    }
+
+	    .time-item > span {
+	        float: left;
+	        line-height: 49px;
+	        color: orange;
+	        font-size: 32px;
+	        margin: 0 10px;
+	        font-family: Arial, Helvetica, sans-serif;
+	    }
+	    .title {
+	      width: 300px;
+	      height: 50px;
+	      margin:200px auto 50px auto;
+	    }
+	</style>
+</head>
+<body>
+	<h1 class="title">距离2020年，还有</h1>
+  
+	<div class="time-item">
+	    <span><span id="day">00</span>天</span>
+	    <strong><span id="hour">00</span>时</strong>
+	    <strong><span id="minute">00</span>分</strong>
+	    <strong><span id="second">00</span>秒</strong>
+	</div>
+
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// 倒计时
+		var day = $my('day');
+		var hour = $my('hour');
+		var minute = $my('minute');
+		var second = $my('second');
+
+
+
+		// 不断刷新页面，就弄个闹钟
+		var end = new Date('2020-01-01 00:00:00');
+		// 初始时要先执行一次闹钟初始化
+		countDown();
+		var timeId = setInterval(countDown, 1000);  // 一秒执行一次
+
+		function countDown(){
+			var times = timeDiff(new Date(), end);
+			day.innerText = times['day'];
+			hour.innerText = times['hour'];
+			minute.innerText = times['minute'];
+			second.innerText = times['second'];
+
+			// 当到终点的时候，需要停止闹钟，这个时候需要取消闹钟，可以用 clearInterval(),参数为取消的时间执行id，即定时器的变量
+			if (times.second < 0) {  // 取消定时器
+				clearInterval(timeId);
+				alert('时间到了');
+			}
+
+		};
+		// 计算两个时间差
+		function timeDiff(start, end){
+			var time = (end - start) / 1000;  // 获得相差的秒数
+			var day = parseInt(time / 60 / 60 / 24);
+			var hour = parseInt(time / 60 / 60 % 24);
+			var minute = parseInt(time / 60 % 60);
+			var second = parseInt(time % 60);
+			return {
+				'hour': hour,
+				'day': day,
+				'minute': minute,
+				'second': second
+			}
+		}
+
+
+		
+		
+		
+
+	</script>
+</body>
+</html>
