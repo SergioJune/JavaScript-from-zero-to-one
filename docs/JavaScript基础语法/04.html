@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript基础语法04运算符</title>
+</head>
+<body>
+	
+<script type="text/javascript">
+	//运算符
+	// 算术运算符 + - / * %
+	var a = 5;
+	var b = 8;
+	console.log(a + b);
+	console.log(a - b);
+	console.log(a * b);
+	console.log(a / b);  // 结果为浮点数
+	console.log(a % b);
+	// 任何一个数 / 0 结果都为 Infintiy， % 0 为NaN
+	console.log(a / 0);
+	console.log(0 / 0);  // 结果为 NaN
+	console.log(a % 0);  // 结果为 NaN
+	console.log(0 % 0);  // 结果为 NaN
+
+
+	// 一元运算符 ++ -- ！
+	var num = 5;
+	console.log(num++);  // 6
+	console.log(num--);  // 5
+	console.log(!num);  // 会转为 boolean 类型 false
+	// 前置++ 和后置++ 不一样
+	a = 5;
+	console.log(a + num++);  // 这个后置++，会把结果先返回再++,结果 10
+	console.log(a + ++num);  // 这个前置++， 会先++再把结果返回，结果 12
+	// -- 同 ++
+
+
+	//逻辑运算符 && || !  结果都为 Boolean 类型
+	var a = true;
+	var b = false;
+	console.log(a && b);  // 两边都为 true 时才返回 true
+	console.log(a || b);  // 两边都为 false 时才返回 false
+	console.log(!a);  // 取反
+	console.log(!b);
+
+
+	// 关系运算符 <  >  <=  >=  ==  !=   结果为 boolean, 当有一边不是 Number 类型的时候都会自动转为 Number类型
+	a = 8;
+	b = 9;
+	console.log(a > b);
+	console.log(a < b);
+	b = '9';
+	console.log(a < b);
+
+	// === !==  这个还会判断类型相同不相同，先判断类型
+	a = 9;
+	console.log(a == b);  // true
+	console.log(a === b);  // false
+	console.log(a !== b);
+	console.log(a != b);
+
+
+	// 赋值运算符  += -= /= *= %=  
+	a = 5, b = 9;
+	console.log(a -= b);
+	console.log(a += b);
+	console.log(a /= b);
+
+
+	/*
+		运算符优先级： (优先级越高运行越先)
+		1.括号 ()
+		2.一元运算符 ++ -- !
+		3.算术运算符 + - / * %
+		4.关系运算符 > < >= <=
+		5.相等运算符 == === != !==
+		6.逻辑与那算符 先 && 再 ||
+		7.赋值运算符 += -= *= /= %=
+	*/
+
+
+</script>
+</body>
+</html>
