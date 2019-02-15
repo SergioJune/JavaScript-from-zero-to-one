@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>10轮播图</title>
+	<style type="text/css">
+		* {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            border: 0;
+        }
+
+        .all {
+            width: 500px;
+            height: 200px;
+            padding: 7px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            position: relative;
+        }
+
+        .screen {
+            width: 500px;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen li {
+            width: 500px;
+            height: 200px;
+            overflow: hidden;
+            float: left;
+        }
+
+        .screen ul {
+            position: absolute;
+            left: 0;
+            top: 0px;
+            width: 3000px;
+        }
+
+        .all ol {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        .all ol li {
+            float: left;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .all ol li.current {
+            background: yellow;
+        }
+
+        #arr {
+            display: none;
+            z-index: 1000;
+
+        }
+
+        #arr span {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            margin-top: -20px;
+            background: #000;
+            cursor: pointer;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-family: '黑体';
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.3;
+            border: 1px solid #fff;
+        }
+
+        #arr #right {
+            right: 5px;
+            left: auto;
+        }
+	</style>
+</head>
+<body>
+	<div class="all" id='box'>
+	    <div class="screen">
+	        <ul>
+	            <li><img src="images/wf1.jpg" width="500" height="200"/></li>
+	            <li><img src="images/wf2.jpg" width="500" height="200"/></li>
+	            <li><img src="images/wf3.jpg" width="500" height="200"/></li>
+	            <li><img src="images/wf4.jpg" width="500" height="200"/></li>
+	            <li><img src="images/wf5.jpg" width="500" height="200"/></li>
+	        </ul>
+	        <ol>
+	        </ol>
+	    </div>
+    	<div id="arr"><span id="left">&lt;</span><span id="right">&gt;</span></div>
+	</div>
+
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		var box = $my('box');
+		var ul = box.children[0].children[0];
+		var ol = box.children[0].children[1];
+
+		var len = ul.children.length;
+		// 动态创建图片标号
+		for (var i = 0, len = ul.children.length; i < len; i++ ) {
+			var li = document.createElement('li');
+			li.setAttribute('index', i);  // 自定义属性需要这样创建
+			li.innerText = i + 1;
+			// 注册事件：点击到谁就高亮
+			li.onclick = liClick;
+			ol.appendChild(li);
+		}
+
+		// 默认第一个序号高亮
+		ol.children[0].className = 'current';
+		// 记录高亮的值
+		var current = 0;
+		function liClick(){  // 抽取出来可以节约内存
+				
+				// 取消已经高亮的
+				if (current >= len)  // 因为克隆了一张照片，需要维护下
+					ol.children[0].className = ''
+				else
+					ol.children[current].className = '';
+
+				this.className = 'current';
+				current = this.getAttribute('index');
+
+				// 移动图片
+				var li = ul.children[current];
+				var x = current * li.offsetWidth;
+				move(ul, 10, -x);
+			};
+
+		// 鼠标经过图片显示箭头
+		var arr = $my('arr');
+		var left = $my('left');
+		var right = $my('right');
+		box.onmouseenter = function(){
+			arr.style.display = 'block';
+			// 同时需要清除定时器
+			clearInterval(timeId);
+		}
+		// 离开就隐藏
+		box.onmouseleave = function(){
+			arr.style.display = 'none';
+			// 定时器自己转动
+			timeId = setInterval(function(){  // 需要保证定时器唯一
+				right.click();  // 代码点击事件
+			}, 2000);
+		}
+
+		// 点击箭头切换下一张
+		right.onclick = function(){
+			current = parseInt(current);  // 这个有可能是字符串，需要转，因为下面的自己代码点击读取属性为字符串可能
+			// 弄成无缝切换，就是在最后一张切换到第一张的时候只滚一个图片距离的动画，第一张切换到最后一张也是
+			// 证明当前坐标是在克隆的照片上
+			if (current === len){  // 这个长度还不包含克隆的 li，因为克隆在后面在执行
+				// 就切换到真正的第一张图片
+				current = 0;
+				ul.style.left = '0px';
+			}
+			// 取消当前的高亮
+			ol.children[current].className = '';
+			// 获取下一张的 index
+			current = current + 1;
+			if (current >= len) {  // 切换到克隆图片
+				move(ul, 10, -current * ul.children[0].offsetWidth);
+				ol.children[0].className = 'current';
+			}else{
+				ol.children[current].click();  // 自己代码触发事件，这样子就可以减少下面代码书写
+			}
+			
+			// // 移动图片
+			// move(ul, 10, -liIndex * ul.children[0].offsetWidth);
+
+			// // 记得改变 current 值
+			// current = liIndex;
+			// // 设置高亮
+			// ol.children[current].className = 'current';
+		}
+		// 点击左箭头切换上一张
+		left.onclick = function(){
+			current = parseInt(current);  // 这个有可能是字符串，需要转
+			// 无缝滚动
+			if (current === 0) {
+				// 转去克隆图片
+				current = len;
+				ul.style.left = -current * ul.children[0].offsetWidth + 'px';
+			}
+			// 取消当前的高亮
+			if (current < len)  // 在第一张图片高亮有两种情况
+				ol.children[current].className = '';
+			else  // 这个是 current 等于 长度的时候，要不会在最后一张图和第一张图来回切两个都高亮
+				ol.children[0].className = '';
+			// 获取下一张的 index
+			current -= 1;
+			// var liIndex = current - 1 < 0 ? ol.children.length - 1: current - 1;
+			ol.children[current].click();  // 自己代码触发事件，这样子就可以减少下面代码书写
+			// // 移动图片
+			// move(ul, 10, -liIndex * ul.children[0].offsetWidth);
+
+			// // 记得改变 current 值
+			// current = liIndex;
+			// // 设置高亮
+			// ol.children[current].className = 'current';
+		}
+
+		// 无缝滚动需要在开始或最后加一张克隆的图片
+		var firstLi = ul.children[0];
+		var cloneFirst = firstLi.cloneNode(true);  // true 为复制节点的内容
+		ul.appendChild(cloneFirst);
+
+
+		// 定时器自己转动
+		var timeId = setInterval(function(){
+			right.click();  // 代码点击事件
+		}, 2000);
+	</script>
+</body>
+</html>
