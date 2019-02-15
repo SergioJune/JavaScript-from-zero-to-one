@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript基础语法02</title>
+</head>
+<body>
+
+<script type="text/javascript">
+	// // JavaScript的数据类型，分为简单类型和复杂数据类型
+	// // 先只说简单的数据类型
+	// // Number 类型，数值类型，字面量就是数值
+	// var a = 12;
+	// var b = 45;
+	// console.log(a, b);
+	// console.log(typeof a);  // 获取变量的类型
+	// console.log(typeof typeof a);
+	// // 八进制
+	// a = 012;
+	// console.log(a);
+	// // 十六进制
+	// a = 0x1A;
+	// console.log(a);
+
+	// // 浮点数
+	// a = 12.35;
+	// console.log(a);
+	// // 可以用科学计数法
+	// a = 12e12;  // 表示 12 * 10 ^ 12
+	// console.log(a);
+
+	// // 浮点数两数运算并不是一个准确的数，精确到17位小数,因为计算机存储数值都是以二进制的方式存储的，所以存储浮点数就会不是很准确，会有小误差
+	// console.log(0.1 + 0.2);  // 结果为 0.30000000000000004
+	// console.log(0.9 - 0.5);
+	// // 不要直接用浮点数的运算参与运算
+	// console.log(0.1 + 0.2 == 0.3);  // 结果是 false
+
+	// // 最大值
+	// console.log(Number.MAX_VALUE);
+	// // 最小值
+	// console.log(Number.MIN_VALUE);
+
+	// // 也有无穷大和无穷小
+	// console.log(Infinity);
+	// console.log(5 / 0);
+	// console.log(-Infinity);
+
+	// // 判断一个变量是不是数值
+	// console.log(isNaN(a));  // 结果为 false， 证明为 Number， 因为这个是判断 Not a Number
+	// console.log(isNaN(12 + 'ser')); // 结果为 true
+
+
+	// String 类型
+	// 用单引号或双引号括起来的都是 String类型
+	var z = 'abc';
+	console.log(typeof z);  // 结果：String
+	// 获取字符串的长度
+	console.log(z.length);
+	var a = 'qwe';
+	var b = 'asd';
+	// 连接两个字符串
+	console.log(a + b);
+	// 若有一边是其他类型，会将其他类型先转为String 类型
+	console.log(a + 123);
+	console.log(a + true);
+	console.log(a + undefined);
+
+	console.log('我是一个\"帅哥\"');
+	console.log('我喜欢\"学\'python\'\"');
+
+
+	// // Boolean 类型 只有两个字面量，分别为 true 和 false, 内部存储就是 0 和 1；
+	// var a = true;
+	// console.log(a);
+	// console.log(typeof a);
+
+
+	// // undefined 类型， 未定义的就是指这个类型， 一般所有变量的默认值都是 undefined
+	// var z;
+	// console.log(typeof z);
+
+
+	// null 类型， 这个也需要自己手动赋值才可以
+	var z = null;
+	console.log(z);
+	console.dir(typeof z);  // 会返回 object， 可以用这个来清空 object
+
+
+	// Object 为复杂的数据类型
+
+	
+
+</script>
+</body>
+</html>
