@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WEBAPI02属性操作</title>
+</head>
+<style type="text/css">
+	.red{
+		color:red;
+	}
+	.grey{
+		color: grey;
+	}
+</style>
+<body>
+	<!-- <div id='content'>
+		我是div标签
+		<a href="http://www.baidu.com">百度</a>
+		<div id='inner'>hello</div>
+
+		<form>
+			<input type="text" name="userText" disabled>
+		</form> 
+
+		<ul type='none'>
+			<li>用户名：<input type="text" name="userName"></li>
+			<li>密码：<input type="password" name="userPassword"></li>
+			<li><button id='btn'>登陆</button></li>
+		</ul>
+		
+	</div> -->
+
+	<!-- <div content='random'>
+		<button id='randomBtn'>选择</button>
+		<select id='cities' >
+			<option value='1'>北京</option>
+			<option value='2'>上海</option>
+			<option value='3'>广州</option>
+			<option value='4'>深圳</option>
+			<option value='5'>杭州</option>
+		</select>
+	</div>
+
+	<div id='searchDiv'>
+		<input type="text" name="searchText">
+	</div>
+ -->
+	<div >
+		<div>全选<input type="checkbox" id='full'></div>
+		<ul type='none'>
+			<li>
+				苹果<input type="checkbox" name="">
+			</li>
+			<li>
+				香蕉<input type="checkbox" name="">
+			</li>
+			<li>
+				橙子<input type="checkbox" name="">
+			</li>
+			<li>
+				石榴<input type="checkbox" name="">
+			</li>
+			<li>
+				荔枝<input type="checkbox" name="">
+			</li>
+		</ul>
+		<div><button id='not'>反选</button></div>
+	</div>
+
+<script type="text/javascript" src='common.js'></script>	
+<script type="text/javascript">
+	// // 非表单属性,如 href，title，id，srcclassName等等
+	// // 操作属性的步骤
+	// /*
+	// 	1.获取需要操作的元素
+	// 	2.获取属性直接用属性名.src即可，不过，如果想要更改class的话，需要改为 classNmae,这是因为 class为js的关键字
+	// */
+
+	// // 取消 a 标签的默认行为
+	// // 注册 a 标签的点击行为，返回 false即可
+	// var abaidu = document.getElementsByTagName('a')[0];
+	// abaidu.onclick = function(){
+	// 	return false;  // 这样子即可
+	// }
+
+
+	// // 获取标签里面的内容
+	// // innerHTML 属性,获取该标签内的所有内容，包括标签，可以说是把源码原封不动地获取到，包括空格和换行
+	// var content = document.getElementById('content');
+	// console.log(content.innerHTML);
+
+	// // innerText 属性，只是获取文字内容,包括子标签的内容，但不包括换行
+	// console.log(content.innerText);
+
+	// // textContent 属性，和 innerText 一样，只是浏览器兼容问题
+	// console.log(content.textContent);  // 这个会把换行也提取出来
+	// console.log(getTextContent(content));  // 这个处理了浏览器兼容问题
+
+
+	// // 设置文本，也是可以用上述的 innerText 和 innerHTML 属性进行直接更改即可
+	// // 当内容有标签的时候可以使用 innerHTML 属性，这个会解析 html 标签内容
+	// // 内容物标签的时候 用 innerTetx 即可，如果用 innerHTML 效率会有点低，这是因为这个属性会解析 html 标签
+
+	// content.innerHTML = '<b>你好</b>';
+	// content.innerText = '<b>你好</b>' ;  // 这个不会解析 html标签，会直接字符串显示在浏览器上
+
+
+
+	// 处理表单元素， 如 value, type, disabled, checked, selected 等， 后面三个属性在 html 中只有一个值，所以在 js 中就只有 true和false两个值
+
+	// // 注意：在用 disabled 禁用输入文本后，还可以使用 DOM 操作输入
+	// var textUser = document.getElementsByName('userText')[0];
+	// console.log(textUser);
+	// textUser.value = '你好';  // 设置文本框的值
+
+	// // 案例：输入用户名和密码，不满足条件就高亮显示
+	// // 获取元素
+	// var btn = $my('btn');
+	// var userName = document.getElementsByName('userName')[0];
+	// var userPassword = document.getElementsByName('userPassword')[0];
+
+	// // 注册事件
+	// var flag = true;
+	// btn.onclick = function(){
+	// 	console.log(userName.value);
+	// 	console.log(userPassword.value);
+	// 	if (!userName.value || !userPassword.value)
+	// 		alert('用户名或者密码不能为空');
+	// 	else{
+	// 		// 错误就高亮显示
+	// 		if (userName.value != 'abc') {
+	// 			userName.className = 'red';  // 设置高亮显示
+	// 			alert('账号错误');
+	// 			flag = false;
+	// 		}else{
+	// 			// 需要更改样式
+	// 			userName.className = '';
+	// 			flag = true;
+	// 		}
+	// 		if (userPassword.value != '123') {
+	// 			userPassword.className = 'red';
+	// 			alert('密码错误');
+	// 			flag = false;
+	// 		}else{
+	// 			// 需要更改样式
+	// 			userPassword.className = '';
+	// 			flag = true;
+	// 		}
+	// 		if (flag)
+	// 			// 说明两个都没有错误
+	// 			alert('登陆成功');
+	// 		}
+	// }
+
+
+	// // 案例：点击按钮，随机选择下拉框的选项
+	// // 获取元素
+	// var btnRandom = $my('randomBtn');
+	// var cities = $my('cities');
+	// // 注册事件
+	// btnRandom.onclick = function(){
+	// 	var num = Math.floor(Math.random() * (cities.children.length -1) + 1);  // 获取随机数
+	// 	// 获取选向的子元素
+	// 	var ele = cities.children[num];  // 获取子元素，可以通过获取 option 元素来替换
+	// 	// 设置被选中
+	// 	ele.selected = true;
+	// }
+
+
+	// // 案例：搜索框，当未输入文本时，有提示性文字，字体为灰色，输入文本时，提示性文字消失，字体为默认
+	// // 获取元素
+	// var search = document.getElementsByName('searchText')[0];
+	// search.value = '请输入搜索内容';
+	// search.className = 'grey';
+
+	// // 当获得鼠标的焦点时，触发事件
+	// search.onfocus = function(){
+	// 	if (search.value === '请输入搜索内容') {
+	// 		search.value = '';  // 清空内容
+	// 		search.className = '';  // 恢复默认颜色
+	// 	}
+	// }
+
+	// // 当失去焦点时
+	// search.onblur = function(){
+	// 	if (search.value === ''){  // 用户没有输入内容，则再提示
+	// 		search.value = '请输入搜索内容';
+	// 		search.className = 'grey';
+	// 	}
+	// 	if(search.value === '请输入搜索内容')
+	// 		search.className = 'grey';
+	// }
+
+
+	// 案例：全选 + 反选
+	// 获取元素
+	var full = $my('full');
+	var not = $my('not');
+	// 选项
+	var inputs = document.getElementsByTagName('input');
+
+	var isAllCheaked = true;
+
+	// 点击全选就选项的按钮全部选上
+	full.onclick = function(){
+		for(var i = 0, len = inputs.length; i < len; i++){
+			var input = inputs[i];
+			if ( input.type === 'checkbox'){
+				// 这个选项的按钮选上
+				// this :这里的 this 为事件源，就是全选选项
+				input.checked = this.checked;  // 这里需要用 this，因为选项的是否选中和全选一样
+			}
+			
+		}
+		isAllCheaked = true;
+	}
+
+	// 检查是否全部选中
+	
+	function isFullChecked(){
+		for(var i = 0, len = inputs.length; i < len; i++){
+			var input = inputs[i];
+			if (input.id != 'full'){  // 不存在 id 就是说明不是全选选项
+				if (input.checked == true)
+					isAllCheaked = true;
+				else{
+					isAllCheaked  = false;
+					break;
+				}
+				
+			}
+			
+		}
+	}
+
+	// 设置反选
+	not.onclick = function(){
+		for(var i = 0, len = inputs.length; i < len; i++){
+			var input = inputs[i];
+			if ( input.type === 'checkbox'){
+				// 这里需要检查下是否全部选中，如果是则需要把全选的选项也打上
+				input.checked = !input.checked; 
+			}
+			
+		}
+		
+		// 检查是否已经全部选中
+		isFullChecked();
+		// 设置全选项
+		full.checked = isAllCheaked;
+	}
+
+	// 当点击选项也全部选中时，全选项也应该被选中
+	for(var i = 0, len = inputs.length; i < len; i++){
+			var input = inputs[i];
+			if (input.id != 'full'){  // 不存在 id 就是说明不是全选选项
+				input = onclick = function(){
+					// 检查是否已经全部选中
+					isFullChecked();
+					// 设置全选项
+					full.checked = isAllCheaked;
+				}
+				
+			}
+			
+		}
+
+</script>
+</body>
+</html>
