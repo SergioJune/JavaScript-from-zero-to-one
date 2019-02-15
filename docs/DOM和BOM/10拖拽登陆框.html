@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>10拖拽登陆框</title>
+	<style type="text/css">
+		 * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav {
+            height: 30px;
+            background: #036663;
+            border-bottom: 1px solid #369;
+            line-height: 30px;
+            padding-left: 30px;
+        }
+
+        .nav a {
+            color: #fff;
+            text-align: center;
+            font-size: 14px;
+            text-decoration: none;
+
+        }
+
+        .d-box {
+            width: 400px;
+            height: 300px;
+            border: 5px solid #eee;
+            box-shadow: 2px 2px 2px 2px #666;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            background-color: white;
+
+            /* 不让文字被选中 */
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+        }
+
+        .hd {
+            width: 100%;
+            height: 25px;
+            background-color: #7c9299;
+            border-bottom: 1px solid #369;
+            line-height: 25px;
+            color: white;
+            cursor: move;
+        }
+
+        #box_close {
+            float: right;
+            cursor: pointer;
+        }
+	</style>
+</head>
+<body>
+	<div class="nav">
+	    <a href="javascript:;" id="register">注册信息</a>
+	</div>
+	<div class="d-box" id="d_box">
+		<div class="hd" id="drop">注册信息 (可以拖拽)
+		    <span id="box_close">【关闭】</span>
+	    </div>
+	    <div class="bd"></div>
+	</div>
+
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		var d_box = $my('d_box');
+		var drop = $my('drop');
+		var box_close = $my('box_close');
+
+		// 拖动登陆框   需要注意这两个事件的事件源
+		drop.onmousedown = function(e){  // 这个事件为鼠标按下的时候触发
+			e = e || window.event;
+			// 先求出鼠标点击距离登陆框的左上距离
+			var pX = getPage(e).pageX;  // 这是鼠标与左边的距离
+			var pY = getPage(e).pageY;  // 与上边的距离
+			// 鼠标在盒子的距离
+			var mouseX = pX - d_box.offsetLeft;
+			var mouseY = pY - d_box.offsetTop;
+
+			// 鼠标点击后再触发鼠标滑动事件
+			document.onmousemove = function(e){  // 这个如果还是盒子作为事件源的话，就会出现卡顿，因为当鼠标滑动过快，是跟不上的
+				e = e || window.event;
+				// 这个设置盒子的距离
+				// 获取鼠标距离
+				var x = getPage(e).pageX - mouseX;  
+				var y = getPage(e).pageY - mouseY;  
+				// 设置盒子的距离
+				d_box.style.left = x  + 'px';  // 记得带上单位
+				d_box.style.top = y  + 'px';
+			}
+		}
+
+		// 鼠标弹起来时就不再拖动
+		document.onmouseup = function(){
+			document.onmousemove = null;
+		}
+
+		// 点击关闭按钮就隐藏
+		box_close.onclick = function(){
+			d_box.style.display = 'none';
+		}
+	</script>
+</body>
+</html>
