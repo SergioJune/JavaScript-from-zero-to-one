@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>瀑布流照片</title>
+	<style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .itemBox {
+            width: 1050px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .item {
+            border: 1px solid #ccc;
+            padding: 4px;
+            position: absolute;
+        }
+	</style>
+</head>
+<body>
+	<div class="itemBox">
+        <div class="item">
+            <img src="./images/P_000.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_001.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_002.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_003.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_004.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_005.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_006.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_007.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_008.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_009.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_000.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_001.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_002.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_003.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_004.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_005.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_006.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_007.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_008.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_009.jpg" alt="">
+        </div>
+    </div>
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		var itemBox = document.getElementsByClassName('itemBox')[0];
+		var items = itemBox.children;
+
+		// 当网页加载完之后我们就需要有墙
+		window.onload = function(){
+			// 我们需要求出一行能放多少列照片
+			var boxWidth = itemBox.clientWidth;  // 求出盒子的宽度，不包括边框
+			var itemWidth = items[0].offsetWidth;
+			var col = parseInt(boxWidth / itemWidth);  // 列数
+			// 间距,就是每个照片之间的距离
+			var distance = (boxWidth - itemWidth * col) / (col - 1);  
+			
+			// 存储每一行中的高度
+			var arr = [];
+			var flag = true;  // 用于判断是否第一次生成瀑布流
+			var start = getWaterfall(0);  // 生成瀑布
+
+			// 页面滑动时，自动生成元素节点,加载数据
+			window.onscroll = function(){
+				if (getScroll().scrollTop > 5000){
+					console.log('加载完毕');
+					return;
+				}
+				// 加载数据的条件
+				// window.pageYOffset 页面在 纵轴方向滚动的距离，与window.scrollTop 一样
+				// window.innerHeight 整个页面的高度，也就是页面顶部距离滚动条的距离
+				// 当整个屏幕的高度（包括滑动的距离）大于照片的最小高度就需要自动加载 
+				if (getScroll().scrollTop + window.innerHeight > getMin().minValue) {  
+					var json = [  // 记载的数据
+								{ "src": "./images/P_000.jpg" },
+								{ "src": "./images/P_001.jpg" },
+								{ "src": "./images/P_002.jpg" },
+								{ "src": "./images/P_003.jpg" },
+								{ "src": "./images/P_004.jpg" },
+								{ "src": "./images/P_005.jpg" },
+								{ "src": "./images/P_006.jpg" },
+								{ "src": "./images/P_007.jpg" },
+								{ "src": "./images/P_008.jpg" },
+								{ "src": "./images/P_009.jpg" },
+								{ "src": "./images/P_010.jpg" }
+								];
+
+					// 动态生成节点
+					for (var i = 0; i < json.length; i++) {
+						var div = document.createElement('div');
+						div.className = 'item';
+						itemBox.appendChild(div);
+						var img = document.createElement('img');
+						img.src = json[i].src;
+						div.appendChild(img);
+
+					}
+					// 生成瀑布
+					start = getWaterfall(start);
+				}
+			}
+
+			// 获取最小值的下标以及值
+			function getMin(){
+				var minIndex = 0;
+				var minValue = arr[minIndex];
+				for(var i = 1; i < arr.length; i++) {
+					if (arr[i] < minValue) {
+						minIndex = i;
+						minValue = arr[i];
+					}
+				}
+
+				return {
+					'minIndex': minIndex,
+					'minValue': minValue
+				}
+			}
+
+			function getWaterfall(start){  // 参数为 for 语句的初始值，这样做可以使加载新的瀑布时不需要重新开始生成
+					for (var i = start; i < items.length; i++) {
+						var item = items[i];
+						if (i < col ){ // 先弄出一行照片
+							item.style.left = i * itemWidth + i * distance + 'px';
+							// 存储高度
+							// arr[i] = item.offsetHeight;  // 只能使用坐标赋值，不能使用 push，因为每次滑屏幕的时候都有可能重新开始执行这个函数
+							// 优化后可以这样写
+							arr.push(item.offsetWidth);
+						}else{
+							// 找出数组中的最低高度，往最低高度的下标存放照片
+							var min = getMin();
+							console.log(arr, min);
+							var minIndex = min.minIndex;
+							var minValue = min.minValue;
+							item.style.left = minIndex * itemWidth + minIndex * distance + 'px';
+							// 设置 top
+							item.style.top = minValue + distance + 'px';
+							arr[minIndex] = item.offsetHeight + minValue + distance;  // 还需要把不上的高度给加上
+						}
+						
+					}
+
+					return items.length;  // 这个作为下次的 i 的初始化值
+			}
+
+		}
+	</script>
+</body>
+</html>
