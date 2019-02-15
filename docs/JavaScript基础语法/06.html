@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript基础语法06数组函数</title>
+</head>
+<body>
+
+
+<script type="text/javascript">
+	// // 数组函数
+	// // 定义
+	// // 创建一个空数组
+	// var arr1 = []; 
+	// // 创建一个包含3个数值的数组，多个数组项以逗号隔开
+	// var arr2 = [1, 3, 4]; 
+	// // 创建一个包含2个字符串的数组
+	// var arr3 = ['a', 'c']; 
+	// var arr = [5, 'g', 9, 'a'];  // 存储类型可以不相同
+	// console.log(arr);
+	// for (var i = 0, len = arr.length; i < len; i++){
+	// 	console.log(arr[i]);
+	// }
+	// var arr = [5, 'g', 9, 'a'];
+	// arr[9] = 8;  // 直接赋值，前面未赋值的元素均为 undefined。
+	// console.log(arr);
+	// for (var i = 0, len = arr.length; i < len; i++){
+	// 	console.log(arr[i]);
+	// }
+
+	// // 清空数组
+	// arr.length = 0;
+
+
+	// // 找出一组数组中的最大值
+	// arr = [5, 8, 6, 9, 15, 12, 18]
+	// max = arr[0]
+	// for (var i = 1, len = arr.length; i < len; i++){
+	// 	if (max < arr[i])
+	// 		max = arr[i]
+	// }
+	// console.log(max);
+
+
+	// // 反转数组
+	// var temp;
+	// for(var i = 0, len = arr.length, mid = len / 2; i < mid; i++){
+	// 	temp = arr[i];
+	// 	arr[i] = arr[len - 1 - i];
+	// 	arr[len - i - 1] = temp;
+	// }
+	// console.log(arr);
+
+
+	// var sayHi = function(){
+	// 	console.log('吃了没');
+	// }
+
+	// sayHi();
+
+	// // 函数
+	// function factorial(n){
+	// 	// 1 - n 之间的阶乘的和
+	// 	var num = 1;
+	// 	for (var i = 1; i <= n; i++){
+	// 		var temp = 1;
+	// 		for (var t = i; t > 0; t--){
+	// 			temp *= t;
+	// 		}
+
+	// 		num += temp;
+	// 	}
+		
+	// 	return num;
+	// }
+
+	// num = factorial(5);
+	// console.log(num);
+
+	// function getMax(arr){
+	// 	max = arr[0]
+	// 	for (var i = 1, len = arr.length; i < len; i++){
+	// 		if (max < arr[i])
+	// 			max = arr[i]
+	// 	}
+	// 	return max;  // 返回值
+	// }
+
+	// // 找出一组数组中的最大值
+	// arr = [5, 8, 6, 9, 15, 12, 18]
+	// var max = getMax(arr);  // 调用函数
+
+
+	// // 函数的 arguments, 这个就是传进来的实参，类似于数组
+	// function f(){
+	// 	console.log(arguments);
+	// 	console.log(arguments[0]);
+	// 	console.log(arguments.length);
+	// }
+
+	// f(1, 2, 3);
+
+	// // 当不知道传进来多少个参数的时候，可以用这个
+	// // 比如，求一堆数中的和
+	// function f1(){
+	// 	var num = 0;
+	// 	for (var i = 0, len = arguments.length; i  < len; i ++)
+	// 		num += arguments[i];
+	// 	return num;
+	// }
+
+	// console.log(f1(1, 5, 6, 8, 9, 7, 4, 12, 15));
+
+	// // 案例：根据年月日返回该日在该年的第几日
+	// function getDay(data){
+	// 	// 根据传进来的日期来分割获得年月日
+	// 	var arr = data.split('-');  // 根据 - 分割
+	// 	var year = parseInt(arr[0]), month = parseInt(arr[1]), day = parseInt(arr[2]);
+
+	// 	// 判断是闰年还是平年
+	// 	flag = 1;  // 代表平年， 0 代表闰年
+	// 	if ( year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0))
+	// 		flag = 0;
+
+	// 	for (var m = 1; m < month; m ++){
+	// 		switch(m){
+	// 			case 1:
+	// 			case 3:
+	// 			case 5:
+	// 			case 7:
+	// 			case 8:
+	// 			case 10:
+	// 			case 12:
+	// 				day += 31;
+	// 				break;
+	// 			case 2:
+	// 				if (flag)
+	// 					day += 28;
+	// 				else
+	// 					day += 29;
+	// 				break;
+	// 			default:
+	// 				day += 30;
+	// 				break;
+	// 		}
+	// 	}
+
+	// 	return day;
+	// }
+
+	// days = getDay('2016-12-31');
+	// console.log(days);
+
+
+	// // 匿名函数，就是没有名字的函数
+	// var f2 = function(){
+	// 	console.log("我是匿名函数");
+	// }
+
+	// // 调用
+	// f2();
+
+	// // 匿名函数自调用,这个一般用于函数只调用一次
+	// (function(){  // 没有括号报错 Uncaught SyntaxError: Unexpected token (
+	// 	console.log("匿名函数自调用");
+	// })();
+
+
+	// // 函数也是一种类型,就是function
+	// console.log(typeof f2);
+
+	// // 函数还可以作为实参传递，也可以作为返回值进行返回
+
+
+	// // 作用域：变量或者函数可以起作用的范围
+	// // 全局作用域：在script 或者一个独立的js文件内都能起到作用，在全局作用域定义的变量，任何位置都可以访问，这个变量就叫做全局变量
+	// // 不用 var 修饰的变量也可以是全局变量，可以在全局作用域访问，不推荐这个，因为不规范
+	// // 局部作用域：任何一个函数内都是一个局部作用域，在局部定义的变量只能在函数内部调用，这个变量就叫做局部变量
+	// // 局部变量在函数执行完之后会被回收，全局变量则在浏览器关闭之后才回收
+
+	// var a = 5;  // 全局变量
+	// function ff(){
+	// 	var a = 6; // 局部变量
+	// 	b = 6;  // 这个也是全局变量,在chrome， IE上会出错，不是全局变量
+	// }
+	// ff();  // 得先运行函数，要不这个变量还没有加载进内存，所以会出错
+	// console.log(b);
+
+	// // 作用域链：全局作用域为 0 级作用域链， 函数为 1 级作用域链， 函数的函数内部为 2 级作用域链，以此类推
+	// // 在找相关变量的时候，会先寻找最近的作用域链内的变量
+	// var s = 1;  // 0 级作用域链
+	// function ss(){  // 1 级作用域链
+	// 	var s = 2;
+	// 	sss();
+	// 	function sss(){  // 2 级作用域链
+	// 		console.log(s);
+	// 	}
+	
+	// }
+
+	// ss();  // 结果为 2
+
+	// var y = u = i = 9;  // 注意：这个实质是 var y = 9; u = 9; i = 9;  所以 u, i 是全局变量
+
+
+	// 预解析：在对JavaScript进行解析时会预解析
+	// 1.变量提升：变量得声明会提升到作用域的最最上面，变量赋值不会提升
+	// 2.函数提升：把当前作用域内的函数声明提升到整个作用域最前面，变量声明后面
+	// 1、-----------------------------------
+	// var num = 10;
+	// fun();
+	// function fun() {
+	//   console.log(num);
+	//   var num = 20;
+	// }
+
+	// 预解析
+	// var num；  // 变量提升
+	// function fun() {  // 函数提升
+	//   var num  // 函数内的变量提升
+	//   console.log(num);
+	//   num = 20;
+	// }
+	// num = 10;
+	// fun();
+
+	// //2、-----------------------------------
+	// var a = 18;
+	// f1();
+	// function f1() {
+	//   var b = 9;
+	//   console.log(a);
+	//   console.log(b);
+	//   var a = '123';
+	// }
+	// // 预解析
+	// var a；  // 变量提升
+	// function f1() {  // 函数提升
+	//   var b；  // 变量提升
+	//   var a；  // 变量提升
+	//   b = 9;
+	//   console.log(a);  // 前面只定义为赋值所以答案为 undefined
+	//   console.log(b);
+	//   a = '123';
+	// }
+	// a = 18;
+	// f1();
+
+	// 3、-----------------------------------
+	f1();
+	console.log(c);
+	console.log(b);
+	console.log(a);  // 会报错
+	function f1() {
+	  var a = b = c = 9;  // 需要注意这行代码，拆开实质为 var a; b; c; 定义的三个变量， a 是局部变量，但是 b 和 c 没有使用 var 修饰，所以它们两个是全局作用域，下面才不会报错
+	  console.log(a);
+	  console.log(b);
+	  console.log(c);
+	}
+	// 预解析
+	function f1() {  // 函数提升
+	  var a;  // 变量提升
+	  b;  // 变量提升
+	  c;  // 变量提升
+	  a = b = c = 9;
+	  console.log(a);
+	  console.log(b);
+	  console.log(c);
+	}
+	f1();
+	console.log(c);
+	console.log(b);
+	console.log(a);  // 这个在全局作用域没有定义，所以报错
+
+</script>	
+</body>
+</html>
