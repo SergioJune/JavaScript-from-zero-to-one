@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WEBAPI07事件对象</title>
+	<style type="text/css">
+		body{
+			height:1000px;
+		}
+		#ts{
+			position: absolute;
+		}
+		#box{
+			position: absolute;
+		}
+	</style>
+</head>
+<body>
+<!-- 	<button id='btn'>按钮</button> -->
+	<img src="./images/tianshi.gif" id='ts' style="left:648px;top:230px;">
+	<div id='box' style="border: 1px solid red; width:300px; height:400px; left:10px; top:20px;"></div>
+	<input type="text" name="" id='userName'>
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// // 事件对象，就是在事件函数的参数就是事件对象
+		// // 在老版本中，还可以使用 window.event 来获取事件对象
+		// var btn = $my('btn');
+		// btn.onclick = function(e){
+		// 	e = e || window.event;  // 处理浏览器兼容问题
+		// 	console.dir(e);
+		// 	console.log(e.eventPhase);  // 事件的阶段，比如冒泡，捕获, 1 代表捕获阶段， 2 代表目标阶段， 3 代表事件冒泡
+		// 	console.log(e.target);  // 真正触发事件的对象
+		// 	console.log(e.currentTarget);  // 事件处理函数所属的对象
+		// 	console.log(e.type);  // 事件的类型
+		// 	console.log(e.clientX, e.clientY);  // 相对于可视区域的横纵轴距离
+		// 	console.log(e.pageX, e.pageY);  // 相对于整个页面的横纵轴距离，如何滑动都不会改变
+		// 	e.preventDefault();  //阻止事件的默认行为,阻止链接跳转，但是还是建议使用 renturn false的形式，因为这个只有 ie 才支持
+		// 	e.stopPropagation();  // 阻止事件冒泡
+		// 	//e.cancelBubble();  // 老版本的 ie 支持这个阻止事件冒泡
+		// }
+
+
+		// 案例：图片跟着鼠标走
+		var ts = $my('ts');
+		// ts.onclick = function(e){
+		// 	console.log(e.clientX, e.clientY);
+		// 	console.log(e.pageX, e.pageY);
+		// }
+		// 跟着鼠标走
+		// document.onmousemove = function(e){
+		// 	// ts.style.top = e.pageY - 10 + 'px';  // 这个需要单位的
+		// 	// ts.style.left = e.pageX - 10 + 'px';
+
+		// 	ts.style.top = getPage(e).pageY - 10 + 'px';
+		// 	ts.style.left = getPage(e).pageX - 10 + 'px';
+		// }
+
+
+		// // pageX 和 pageY 有浏览器兼容问题
+		// // document.body.scrollLeft 屏幕的滑动距离
+		// function getScroll(){
+		// 	var scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+		// 	var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+		// 	return {
+		// 		'scrollLeft': scrollLeft,
+		// 		'scrollTop': scrollTop
+		// 	}
+		// }
+
+		// function getPage(e){
+		// 	var pageX = e.clientX + getScroll().scrollLeft;
+		// 	var pageY = e.clientY + getScroll().scrollTop;
+		// 	return {
+		// 		'pageX': pageX,
+		// 		'pageY': pageY
+		// 	}
+		// }
+
+
+		// 获取鼠标在盒子内偏移的距离
+		var box = $my('box');
+		// 盒子的偏移距离
+		console.log(box.offsetLeft, box.offsetTop)
+		box.onclick = function(e){
+			console.log(getPage(e).pageX - this.offsetLeft, getPage(e).pageY - this.offsetTop);
+		}
+
+
+		// 案例：文本框只支持输入数字
+		var text = $my('userName');
+		text.onkeydown = function(e){  // 这个是按下键盘键的时候，还没有将内容输入
+			console.log(e.keyCode);  // 获取按下的键盘码，ascill编码表编码的
+			if (e.keyCode < 96 || e.keyCode > 105){
+				// 取消默认行为
+				e.preventDefault();
+			}
+		}
+
+
+
+	</script>
+</body>
+</html>
