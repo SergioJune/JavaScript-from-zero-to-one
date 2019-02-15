@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript基础语法03数据类型转换</title>
+</head>
+<body>
+
+<script type="text/javascript">
+	// 数据类型之间的转换
+	// 其他类型转 String
+	// 第一种用 toString
+	var a = 123;
+	console.log(typeof a);
+	console.log(typeof a.toString());  // 结果：String
+	// 但是 undefined 和 null 类型不用使用 toString
+	// console.log(typeof undefined.toString());  报错
+	// 可以用String() 的方式硬转
+	var z = String(undefined);
+	console.log(typeof z);
+	console.log(typeof String(null));
+
+	// 第二种方式，用 拼接符 +， 最简单的方式
+	var x = 123;
+	console.log(typeof x);
+	console.log(typeof (x + ''));  // 注意运算顺序
+
+
+	// 转 Number 类型
+	// 第一种，用 Number()
+	var a = '123';
+	var num = Number(a);
+	console.log(typeof num);
+	a = '132asd';
+	var n = Number(a);  // 转不了返回NaN
+	console.log(n);
+	console.log(typeof n);  // 结果为Number
+
+	// 第二种，用 parseInt(), 只转整数部分，以数字开头的都可以转
+	// parseFloat(), 可以转浮点数
+	a = '123';
+	num = parseInt(a);
+	console.log(num);
+	console.log(typeof  num);
+	a = '125asd';
+	num = parseInt(a);
+	console.log(num);
+	// 转浮点数
+	a = '12.36';
+	num = parseInt(a);  // 结果 12
+	console.log(num);
+	num = parseFloat(a);  // 结果 12.36
+	console.log(num);
+	// 有两个小数点会只转第二个小数点之前的数字,因为认为第二个小数点就是字符串
+	a = '123.456.78';
+	num = parseFloat(a);  // 结果 123.456
+	console.log(num);
+	// 这个也可以转整数的
+	a = '129';
+	num = parseFloat(a);  // 只有整数部分，不会自动加小数点之类的
+	console.log(num);  // 结果 129
+
+	// 第三种方式，用 - 运算符，与字符串的用 + 类似
+	a = '132';
+	console.log(a - 0);
+	a = '132as';  // 这样子转不了，返回 NaN
+	console.log(a - 0);
+
+	// 第四种，用取正或取负
+	a = '165';
+	console.log(+a);  // 取正代表整数
+	console.log(-a);  // 取负代表负数
+	a = '169sd';  // 这个转不了，返回 NaN
+	console.log(+a);
+
+
+	// 转 Boolean 类型
+	// 用 Boolean()
+	a = 'sa';
+	console.log(a);
+	console.log(Boolean(a));
+	a = '';
+	console.log(Boolean(a));
+	// 除了 0， 空字符串，undefined, NaN 和 null 之外，其他转为 Boolean 都为 true
+
+
+
+</script>
+</body>
+</html>
