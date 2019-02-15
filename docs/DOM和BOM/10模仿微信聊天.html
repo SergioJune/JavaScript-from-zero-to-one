@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模仿微信聊天</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			font-family: '微软雅黑'
+		}
+
+		#container {
+			width: 450px;
+			height: 595px;
+			background: #eee;
+			margin: 10px auto 0;
+			position: relative;
+			box-shadow: 0px 0px 16px #999;
+		}
+
+		.header {
+			background: #000;
+			height: 34px;
+			color: #fff;
+			height: 40px;
+			line-height: 40px;
+			font-size: 20px;
+			padding: 0 10px;
+		}
+
+		.footer {
+			width: 430px;
+			height: 40px;
+			background: #999;
+			position: absolute;
+			bottom: 0;
+			padding: 10px;
+		}
+
+		.footer input {
+			width: 300px;
+			height: 38px;
+			outline: none;
+			font-size: 16px;
+			text-indent: 10px;
+			position: absolute;
+			border-radius: 6px;
+			right: 80px;
+		}
+
+		.footer span {
+			display: inline-block;
+			width: 62px;
+			height: 38px;
+			background: #ccc;
+			font-weight: 900;
+			line-height: 38px;
+			cursor: pointer;
+			text-align: center;
+			position: absolute;
+			right: 10px;
+			top: 14px;
+			border-radius: 6px;
+		}
+
+		.footer span:hover {
+			color: #777;
+			background: #ddd;
+		}
+
+		.icon {
+			display: inline-block;
+			background: red;
+			width: 50px;
+			height: 50px;
+			border-radius: 30px;
+			position: absolute;
+			bottom: 3px;
+			left: 10px;
+			cursor: pointer;
+			overflow: hidden;
+		}
+
+		img {
+			width: 60px;
+			height: 60px;
+			border-radius: 8px;
+		}
+
+		.content {
+			font-size: 20px;
+			width: 435px;
+			height: 488px;
+			overflow: auto;
+			padding: 5px;
+		}
+
+		.content li {
+			margin-top: 10px;
+			padding-left: 10px;
+			width: 412px;
+			display: block;
+			clear: both;
+			overflow: hidden;
+		}
+
+		.content li img {
+			float: left;
+		}
+
+		.content li span {
+			background: #7cfc00;
+			padding: 10px;
+			border-radius: 10px;
+			float: left;
+			margin: 6px 10px 0 10px;
+			max-width: 310px;
+			border: 1px solid #ccc;
+			box-shadow: 0 0 3px #ccc;
+		}
+
+		.content li img.imgleft {
+			float: left;
+		}
+
+		.content li img.imgright {
+			float: right;
+		}
+
+		.content li span.spanleft {
+			float: left;
+			background: #fff;
+		}
+
+		.content li span.spanright {
+			float: right;
+			background: #7cfc00;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div class="header">
+			<span style="float: right;">20:30</span> 
+			<span style="float: left;">小苍</span> 
+		</div>
+
+		<ul class="content"></ul>
+
+		<div class="footer">
+			<div class="icon"> <img src="./images/1.png" alt="" id="icon"> </div>
+			<input id="text" type="text" placeholder="说点什么吧..."> 
+			<span id="btn">发送</span> 
+		</div>
+	</div>
+
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// 点击头像更换头像
+		var container = $my('container');
+		var icon = $my('icon');
+		// 标记头像
+		var flag = true;  // 这个代表为 1， false 代表 2
+		icon.onclick = function(){
+			// 更换图片
+			if (flag){
+				icon.src = './images/2.png';
+				flag = false;
+			}else{
+				icon.src = './images/1.png';
+				flag = true;
+			}
+		}
+
+		// 获取文本框内容，点击发送按钮进行发送
+		var text = $my('text');
+		var ul = container.children[1];
+		var btn = $my('btn');
+		btn.onclick = function(){
+			if(text.value != ''){  // 文本内容不为空才发
+				// 点击发送，信息发送，flag为 true时信息在右边， false 时信息在左边显示
+				// 动态创建元素
+				var li = document.createElement('li');
+				ul.appendChild(li);
+				// 创建头像节点
+				var img = document.createElement('img');
+				img.src = flag? './images/1.png': './images/2.png';
+				img.className = flag? 'imgright': 'imgleft';
+				li.appendChild(img); 
+				// 内容标签
+				var span = document.createElement('span');
+				span.innerText = text.value;
+				span.className = flag? 'spanright': 'spanleft';
+				li.appendChild(span);
+				// 将文本框内容清空
+				text.value = '';
+				}else
+					alert('请输入内容！');
+			console.log(ul.scrollHeight);
+		}
+	</script>
+</body>
+</html>
