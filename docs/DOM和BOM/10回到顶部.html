@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>10回到顶部</title>
+	<style type="text/css">
+		body{
+			height:2000px;
+		}
+		.to-top {
+		    width: 50px;
+		    height: 50px;
+		    background-image: url(./images/to_top.png);
+		    background-repeat: no-repeat;
+		    background-position: 0 0;
+		    background-size: 50px 50px;
+		    cursor: pointer;
+		    display: none;
+		    position: fixed;
+		    bottom: 150px;
+		    left: 86%;
+		}
+	</style>
+</head>
+<body>
+	<div class="to-top" id="totop"></div>
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		var to_top = $my('totop');
+		// 显示回到顶部按钮
+		var scrollTop = 0
+		window.onscroll = function(){
+			scrollTop = getScroll().scrollTop;
+			// 滚动到 200px 的时候就显示回到顶部按钮
+			if(scrollTop >= 200)
+				to_top.style.display = 'block';
+			else
+				to_top.style.display = 'none';
+		}
+		
+		// 点击按钮回到顶部
+		var timeId
+		to_top.onclick = function(){
+				if (timeId) {  // 让定时器唯一，要不当点击多次时会开启多个定时器
+					clearInterval(timeId);
+					timeId = null;
+				}
+				var step = -20;
+				var end = 0;
+				timeId = setInterval(function(){
+				scrollTop += step;  // 这次滑动的距离
+
+				// 停止定时器
+				if (Math.abs(scrollTop - end) < Math.abs(step)) {
+					clearInterval(timeId);
+					document.body.scrollTop = end;
+					document.documentElement.scrollTop = end;
+					return;
+				}
+				// 这两个是页面滑动，因为浏览器兼容问题，所以设置的两个
+				document.body.scrollTop = scrollTop;
+				document.documentElement.scrollTop = scrollTop;
+			}, 1);
+		}
+	</script>
+</body>
+</html>
