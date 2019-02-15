@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WebAPI01DOM的用法</title>
+	<style type="text/css">
+		img{
+			width:350px;
+			height:300px;
+		}
+	</style>
+</head>
+<body>
+<!-- <div id="content">
+	<p>今天学习WEBAPI</p>
+	<UL name='fruit'>
+		<li class='apple'>苹果</li>
+		<li>香蕉</li>
+		<li>橙子</li>
+	</UL>
+</div> -->
+
+	<div>
+		<button id='btn'>切换图片</button>	
+		<div>
+			<img src="./images/01.jpg" alt="" id='pic'>
+		</div>
+	</div>
+
+
+<script type="text/javascript">
+	// // webapi 是指浏览器提供的一些操纵浏览器的接口
+
+	// // DOM：用来出来可扩展性的标记语言，可以在内存中处理，可以动态增加节点
+
+	// // 根据 id 来获取元素，无则返回 null
+	// // 由于返回的也是一个元素节点，还可以使用 docemunt的方法
+	// var content = document.getElementById('content');
+	// console.dir(content);
+
+	// var c = content.getElementsByTagName('p');
+	// console.dir(c);
+
+	// // 通过标签名字来获得元素节点
+	// // 这个返回一个集合，集合为动态集合，即当这个标签增加或减少时他也会自动增加或减少,找不到就会返回长度为 0的集合
+	// var p = document.getElementsByTagName('p')  
+	// console.dir(p);
+
+ // 	// 通过 name 属性来找元素，不过这个有浏览器兼容问题，不建议使用这个
+	// var ulFruit = document.getElementsByName('fruit');  // 返回一个列表，也是动态列表，无则返回空列表
+	// console.dir(ulFruit);
+
+	// // 还可以根据 class 的属性来寻找
+	// var apple = document.getElementsByClassName('apple');  // 也是返回一个动态集合
+	// console.dir(apple);
+
+	// // 还可以使用 css 选择器来获取元素
+	// var element = document.querySelector('div ul .apple');  // 这个时寻找 div 标签下的 ul 下的 class名为 apple的节点
+	// console.dir(element);
+
+
+	// // 除了寻找元素，元素还有事件
+	// // 事件：当什么时候做什么事情，比如当你点击按钮时给你返回一个列表，跳转一个链接，这个过程是 触发-响应
+	// // 注册事件：就是给事件名赋值一个出来函数，当触发了，这个函数就会响应
+	// // 事件源：谁触发事件谁就是事件源，比如点击按钮弹出图片，这个事件源就是按钮
+
+	// 案例：点击按钮切换图片
+	// 1.找到元素
+	var btn = document.getElementById('btn');
+	var img = document.getElementById('pic');
+	console.dir(btn);
+	// 2. 为按钮注册事件
+	var flag = true;  // 用来切换图片的标志
+	btn.onclick = function(){  // click 就是点击事件，当事件源被点击的时候就会响应这个函数
+		if (flag) {
+			// 切换成第二张图片
+			img.src = './images/02.jpg';
+			// 更改 flag
+			flag = false;
+		}else{
+			img.src = './images/01.jpg';
+			flag = true;
+		}
+	}
+
+
+
+</script>
+
+
+</body>
+</html>
