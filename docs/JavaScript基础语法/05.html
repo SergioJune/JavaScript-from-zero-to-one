@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript基础语法05基本结构</title>
+</head>
+<body>
+	
+<script type="text/javascript">
+	// 基本结构，如顺序结构，分支结构和循环结构
+	// 分支结构 if if-else if-else if-else
+	var a = 8;
+	var b = 15;
+	// 求两数之间的最大值
+	if (a > b)
+		console.log(a);
+	else
+		console.log(b);
+
+	// 上面这个可以用三元运算符替代，使用三元运算符的前提必须要有结果返回
+	var max = a > b ? a : b;
+	console.log(max);
+
+	// 成绩转换
+	var score = 90;
+	if (score > 100)
+		console.log('成绩格式有误！');
+	else if (score >= 90 && score <= 100)
+		console.log('优秀');
+	else if (score >= 75)
+		console.log('良好');
+	else if (score >= 60)
+		console.log('及格');
+	else if (score >= 0)
+		console.log('不及格');
+	else
+		console.log('成绩格式有误！');
+
+
+	// switch 语句
+	// 成绩转换,因为是一一对应，所以需要自己手动转score的值
+	switch(parseInt(score / 10)){
+		case 9:
+		case 10:
+			console.log("优秀")
+			break;
+		case 8:
+		case 7:
+			console.log('良好');
+			break;
+		case 6:
+			console.log('及格');
+			break;
+		default:
+			console.log("不及格");
+			break;
+	}
+
+
+	// Boolean 类型的隐式转换，转换规则和前面说的一样
+	var n = 'ds';
+	if (n)  // 这个就是隐式转换
+		console.log('隐式转换');
+
+
+	// 循环结构
+	// // for
+	// for (var i = 0; i <= 10; i++){
+	// 	console.log(i);
+	// }
+
+	// while
+	a = 0;
+	while (a <= 10){
+		console.log(a);
+		a++;
+	}
+
+	// // do-while
+	// a = 0
+	// do{
+	// 	console.log(a);
+	// 	a++
+	// }while (a <= 10);
+
+
+	// 案例
+	// 打印0-100之间7的倍数
+	for (var i = 0; i <= 100; i ++){
+		if (i % 7 == 0)
+			console.log(i);
+	}
+
+	// 打印正方形
+	var str = ''
+	for (var row = 0; row < 10; row++){
+
+		for (var col = 0; col < 10; col++){
+				str += '*\t';
+		}
+		console.log(str);
+		str = '';
+	}
+
+	// 打印三角形
+	str = '';
+	for (var r = 0; r < 10; r++){
+		for (var c = 0; c <= r; c++){
+			str += '*\t';
+		}
+		console.log(str);
+		str = '';
+	}
+
+	// 打印99乘法表
+	str = ''
+	for (var r = 1; r <= 9; r++){
+		for (var c = 1; c <= r; c++){
+			str += (c + ' * ' + r + ' = ' + c * r +'\t');
+		}
+		console.log(str);
+		str = '';
+	}
+
+</script>
+</body>
+</html>
