@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WEBAPI10几个距离属性</title>
+	<style type="text/css">
+		body{
+			margin: 0;
+			padding: 0;
+		}
+		#box1{
+			width:300px;
+			height:400px;
+			background-color: red;
+			position: relative;
+		}
+		#box2{
+			border: 6px solid yellow;
+			width:100px;
+			height: 100px;
+			margin: 30px;
+			padding: 20px;
+			background-color: green;
+		}
+
+		#box {
+	      width: 100px;
+	      height: 100px;
+	      margin: 50px;
+	      border: 30px solid red;
+	      padding: 10px;
+	      background-color: green;
+	      overflow: auto;
+	    }
+	</style>
+</head>
+<body>
+	<div id='box1'>
+		<div id='box2'>
+			
+		</div>
+	</div>
+
+	<div id="box">
+    小明跟小华到动物园玩，进门时，小明指着小华对看门人说：“看清楚喔！等会儿出来，别说我偷了你们的猴子！” 
+  	</div>
+	<script type="text/javascript" src='common.js'></script>
+	<script type="text/javascript">
+		// offsetLeft 和 offsetTop 、offsetHeight 和 offsetWidth 属性
+		var box1 = $my('box1');
+		var box2 = $my('box2');
+		// 这个默认为 body
+		console.log(box2.offsetParent);  // 用于获取定位的父级元素，即有不是默认的position属性
+		console.log(box2.offsetLeft, box2.offsetTop);  // 这个是与offsetParent的左距离与上距离
+		console.log(box2.offsetWidth, box2.offsetHeight);  // 这个是整个盒子的宽和高，只包括内容和padding和border，不包括margin
+
+
+		// client属性：clientLeft clientTop clientWidth clientHeight
+		console.log(box2.clientLeft, box2.clientTop);  // 分别为 border-left 和 border-top 的值
+		console.log(box2.clientWidth, box2.clientHeight);  // 盒子的宽和高，只包括内容和内边距，不包括边框和外边距
+
+		
+		// scroll 属性：scrollLeft scrollTop scrollWidth scrollHeight
+		console.log(box2.scrollLeft, box2.scrollTop);  // 内容滚出去的左距离和上距离，内容滑动的左距离和上距离
+		console.log(box2.scrollWidth, box2.scrollHeight);  // 盒子的宽和高，只包括内容和内边距，注意包括隐藏的内容，其他不包括，滚动条也不包括
+
+		var box = $my('box');
+		console.log(box.scrollLeft, box.scrollTop);
+		console.log(1,box.scrollWidth, box.scrollHeight);  // 盒子的宽和高，只包括内容和内边距，其他不包括，滚动条也不包括
+		box.onscroll = function(){
+		console.log(box.scrollLeft, box.scrollTop);  
+		console.log(box2.scrollWidth, box2.scrollHeight);  // 未滑动之前两值为内容(包括隐藏的内容)和内边距，滑动之后为定值，此时也是内容和内边距，但不包括隐藏的内容
+		}
+	</script>
+</body>
+</html>
