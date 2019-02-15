@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript基础语法07对象</title>
+</head>
+<body>
+	
+<script type="text/javascript">
+	// 对象：是一个具体的事物，汽车和手机等为一个类别，不是一个具体的事物，所以不是对象
+	// 对象具有特征和行为
+	// 定义
+	var obj = {
+		'name': '李伟',
+		'age': 19,
+		'study': function(){
+			console.log(this.name + '学习');
+		}
+	}
+
+	// JavaScript对象可以理解为一个无序属性的集合，属性包含基本值和方法
+
+	console.log(obj);
+	console.log(typeof obj);
+	obj.study();
+
+	// 函数就是独立存在的函数，方法就是存在于对象内部的函数
+
+
+	// 第二种创建对象，这种比较繁琐，只适合创建一个对象，当有多个同类型的对象就不适合了
+	var masterY = new Object();  // 创建了一个空对象
+	// 动态增加对象的属性和方法
+	masterY.name = '易大师'
+	masterY.weapon = '无极之剑'
+	masterY.blood = 100;
+	masterY.attach = function(){
+		console.log(this.name + '攻击敌人');
+	}
+
+	console.log(masterY);
+	console.log(masterY.blood);
+	masterY.attach();
+
+	// 获取不存在的属性会返回 undefined
+
+
+	// 第三种创建对象,使用工厂的设计模式来创建，非常方便创建大量相同类型的对象
+	function createStu(name, age, school){
+		var student = {
+			'name': name,
+			'age': age,
+			'school': school,
+			'study': function(){
+				console.log(this.name + '学习');
+			}
+		}
+
+		return student;  // 记得返回对象
+	}
+
+	stu1 = createStu('zhangsan', 12, '小学');
+	stu2 = createStu('lisi', 16, '初中');
+	console.log(stu1);
+	console.dir(stu2);  // 以对象的形式打印
+	stu1.study();
+	stu2.study();
+
+
+	// 第四种创建对象的方式，通过构造函数来创建，这种也适合创建大量相同类型的对象，同时也可以判断对象所属的类型，推荐这个
+	// 定义构造函数
+	function Hero(name, age){  // 构造函数的函数名首字母就需要大写
+		// 构造函数中直接使用this 指向当前的调用者，就是当前对象
+		this.name = name;
+		this.age = age;
+		this.attach = function(){
+			console.log(this.name + '攻击坏人');
+		}
+
+		// 构造函数不需要返回对象
+	}
+
+	// 根据构造函数创建对象
+	hero = new Hero('wangwu', 20);
+	console.dir(hero);
+	console.log(hero.name);
+	console.log(hero.age);
+	console.log(hero['age']);
+	console.log(hero['name']);
+	hero['age'] = 20;
+	hero.age = 20;  // 修改年龄
+	hero.attach();
+	// 判断对象所属的类型
+	console.log(typeof hero);  // 复杂数据类型使用这个都是指向object
+	console.log(hero instanceof Hero);  // 复杂数据类型判断对象所属类型需要用这个
+	//console.log(hero.constructor  === Hero);
+	// var arr = [];  // 数组也是复杂类型
+	// console.log(typeof arr);
+	// console.log(arr instanceof Array);
+
+	// 使用 new 创建对象的过程
+	/*
+		1.首先在内存中创建了一个空对象
+		2.让构造函数的 this 指向刚创建的对象
+		3.执行构造函数，在构造函数内部就行设置属性和方法，也可以做其他的事情，如调用函数
+		4.返回当前对象
+	*/
+
+
+	// this关键字出现的三个地方以及作用
+	/*
+		1.在函数中，指向 window 对象
+		2.在方法中，指向这个方法所属于的对象
+		3.在构造函数中，指向构造函数刚创建的对象
+	*/
+
+
+	// 遍历对象的属性
+	for (attr in hero){  // 使用 for in 语句
+		console.log(attr);
+		// 根据属性的键获取值的两种方法
+		console.log(hero[attr]);
+		// hero.name  // 这种也可以，但是不能接变量，所以一般使用推荐第一种
+	}
+
+	// 删除对象属性
+	delete hero.name;  // 删除属性
+	delete hero.attach;  // 删除方法
+	console.dir(hero);
+
+	// 简单数据类型存储在栈中，复杂数据类型存储在堆中，栈中存储的是他的地址
+	
+</script>
+</body>
+</html>
